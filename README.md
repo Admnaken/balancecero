@@ -88,7 +88,17 @@ assets/            → logo.png y favicon.png (los agregás vos)
 
 ## Actualizar contenido normativo
 
-Todo el texto legal (artículos, plazos, documentación exigida, riesgos, plantillas) vive en `js/data.js`, separado de la lógica. Para agregar un paso nuevo al checklist de toma de posesión, sumá un objeto al array `TOMA_POSESION`; para agregar una plantilla nueva al generador, sumá una clave a `PLANTILLAS`.
+Todo el texto legal (artículos, plazos, documentación exigida, riesgos, plantillas) vive en `js/data.js`, separado de la lógica. Para agregar un paso nuevo al checklist de toma de posesión, sumá un objeto al array `TOMA_POSESION`; para agregar una plantilla nueva al generador, sumá una clave a `PLANTILLAS`. Cada paso de "Toma de posesión" tiene un campo `comoProceder` con el paso a paso detallado, y cada etapa de "Reclamo al saliente" tiene un campo `desarrollo` — se editan igual que el resto del contenido.
+
+## Datos del consorcio y cuentas bancarias
+
+- El consorcio puede tener más de una cuenta bancaria (titular, reserva, etc.): se agregan/quitan filas con el botón "+ Agregar cuenta" en la pestaña Inicio.
+- La matrícula RPA se carga en "Datos del administrador" (es un dato del administrador, no del consorcio).
+- Los datos del administrador/a saliente incluyen matrícula, domicilio legal y contacto, para usarlos en el reclamo.
+
+## Auditoría técnica
+
+Los ítems de instalaciones que no todos los consorcios tienen (ascensores, calderas, sistema fijo contra incendio, cisterna con electrobombas) llevan un selector "¿Tiene esta instalación?" — al marcar "No tiene" el ítem se cuenta como resuelto y no queda pendiente indefinidamente. El estado de cada ítem admite cuatro valores (Pendiente / Revisando / Verificado con observaciones / Verificado sin observaciones) en lugar del anterior "pendiente/revisando/OK", para no perder detalle en ítems con hallazgos. Algunos ítems (matafuegos, tableros eléctricos, escaleras, pasillos, cerradura principal) tienen campos estructurados propios en vez de una sola casilla, para asentar el relevamiento completo sin depender de una planilla aparte.
 
 ## Advertencia
 

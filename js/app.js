@@ -10,6 +10,53 @@ let state = {
   actualId: null
 };
 
+// Cuentas bancarias en edición dentro del formulario de "Inicio" (lista
+// dinámica: el consorcio puede tener más de una cuenta).
+let bancosEnEdicion = [];
+
+function renderBancosContainer() {
+  const cont = document.getElementById("bancosContainer");
+  if (!cont) return;
+  cont.innerHTML = bancosEnEdicion
+    .map(
+      (b, idx) => `
+    <div class="banco-row" data-idx="${idx}">
+      <label>Etiqueta (ej: titular, reserva)
+        <input type="text" data-field="etiqueta" value="${escapeHtml(b.etiqueta || "")}" placeholder="Cuenta titular">
+      </label>
+      <label>Banco
+        <input type="text" data-field="nombre" value="${escapeHtml(b.nombre || "")}">
+      </label>
+      <label>N.º de cuenta
+        <input type="text" data-field="cuenta" value="${escapeHtml(b.cuenta || "")}">
+      </label>
+      <label>CBU
+        <input type="text" data-field="cbu" value="${escapeHtml(b.cbu || "")}">
+      </label>
+      <label>Alias
+        <input type="text" data-field="alias" value="${escapeHtml(b.alias || "")}">
+      </label>
+      ${bancosEnEdicion.length > 1 ? `<button type="button" class="btn-link danger" data-action="eliminar-banco" data-idx="${idx}">Eliminar cuenta</button>` : ""}
+    </div>`
+    )
+    .join("");
+
+  cont.querySelectorAll(".banco-row").forEach((row) => {
+    const idx = Number(row.dataset.idx);
+    row.querySelectorAll("[data-field]").forEach((input) => {
+      input.addEventListener("input", () => {
+        bancosEnEdicion[idx][input.dataset.field] = input.value;
+      });
+    });
+  });
+  cont.querySelectorAll('[data-action="eliminar-banco"]').forEach((btn) => {
+    btn.addEventListener("click", () => {
+      bancosEnEdicion.splice(Number(btn.dataset.idx), 1);
+      renderBancosContainer();
+    });
+  });
+}
+
 // ---------------------------------------------------------------------------
 // Persistencia
 // ---------------------------------------------------------------------------
@@ -21,7 +68,43 @@ function loadState() {
     console.error("Error leyendo localStorage", e);
     state.consorcios = [];
   }
+  state.consorcios.forEach(migrarConsorcio);
   state.actualId = localStorage.getItem(CURRENT_KEY) || (state.consorcios[0] && state.consorcios[0].id) || null;
+}
+
+// Adapta consorcios guardados con el formato anterior (matriculaRPA/día de
+// vencimiento a nivel de consorcio, una sola cuenta bancaria) al formato
+// nuevo, sin perder datos ya cargados.
+function migrarConsorcio(c) {
+  if (!c.administrador) c.administrador = {};
+  if (c.matriculaRPA !== undefined && !c.administrador.matriculaRPA) {
+    c.administrador.matriculaRPA = c.matriculaRPA;
+  }
+  delete c.matriculaRPA;
+  delete c.diaVencimiento;
+
+  if (!Array.isArray(c.bancos)) {
+    if (c.banco) {
+      c.bancos = [{ etiqueta: "Cuenta titular", ...c.banco }];
+    } else {
+      c.bancos = [{ etiqueta: "Cuenta titular", nombre: "", cuenta: "", cbu: "", alias: "" }];
+    }
+  }
+  delete c.banco;
+
+  if (c.cantidadUF === undefined) c.cantidadUF = "";
+  if (c.cantidadPisos === undefined) c.cantidadPisos = "";
+  if (c.deptosPorPiso === undefined) c.deptosPorPiso = "";
+  if (c.tieneEmpleados === undefined) c.tieneEmpleados = "no";
+  if (c.tieneAmenities === undefined) c.tieneAmenities = "no";
+  if (c.tieneCocheras === undefined) c.tieneCocheras = "no";
+
+  if (!c.saliente) c.saliente = {};
+  if (c.saliente.matricula === undefined) c.saliente.matricula = "";
+  if (c.saliente.email === undefined) c.saliente.email = "";
+  if (c.saliente.telefono === undefined) c.saliente.telefono = "";
+
+  return c;
 }
 
 function saveState() {
@@ -41,19 +124,24 @@ function nuevoConsorcio(datos) {
     nombre: datos.nombre || "Consorcio sin nombre",
     direccion: datos.direccion || "",
     cuit: datos.cuit || "",
-    matriculaRPA: datos.matriculaRPA || "",
+    cantidadUF: datos.cantidadUF || "",
+    cantidadPisos: datos.cantidadPisos || "",
+    deptosPorPiso: datos.deptosPorPiso || "",
+    tieneEmpleados: datos.tieneEmpleados || "no",
+    tieneAmenities: datos.tieneAmenities || "no",
+    tieneCocheras: datos.tieneCocheras || "no",
     administrador: {
       nombre: datos.administradorNombre || "",
       cuit: datos.administradorCUIT || "",
+      matriculaRPA: datos.matriculaRPA || "",
       domicilio: datos.administradorDomicilio || "",
       email: datos.administradorEmail || "",
       telefono: datos.administradorTelefono || ""
     },
-    banco: { nombre: "", cuenta: "", cbu: "", alias: "" },
+    bancos: [{ etiqueta: "Cuenta titular", nombre: "", cuenta: "", cbu: "", alias: "" }],
     fechaAsamblea: "",
-    diaVencimiento: "10",
     horarioAtencion: "10:00 a 16:00 hs",
-    saliente: { nombre: "", domicilio: "", fechaNotificacion: "" },
+    saliente: { nombre: "", matricula: "", domicilio: "", email: "", telefono: "", fechaNotificacion: "" },
     checklist: {},
     auditoria: {},
     empleados: {},
@@ -190,6 +278,9 @@ function renderAll() {
 function renderInicio() {
   const el = document.getElementById("tab-inicio");
   const c = getActual();
+  bancosEnEdicion = c && Array.isArray(c.bancos) && c.bancos.length
+    ? JSON.parse(JSON.stringify(c.bancos))
+    : [{ etiqueta: "Cuenta titular", nombre: "", cuenta: "", cbu: "", alias: "" }];
 
   let listaHtml = state.consorcios
     .map((cc) => {
@@ -226,7 +317,7 @@ function renderInicio() {
     </section>
 
     <section class="card">
-      <h2>${c ? "Editar datos del consorcio actual" : "Agregar nuevo consorcio"}</h2>
+      <h2>${c ? "Editar datos del consorcio" : "Agregar nuevo consorcio"}</h2>
       <form id="formConsorcio" class="form-grid">
         <label>Nombre del consorcio
           <input type="text" name="nombre" placeholder="Ej: Consorcio Av. Callao 1234" value="${c ? escapeHtml(c.nombre) : ""}" required>
@@ -237,14 +328,35 @@ function renderInicio() {
         <label>CUIT del consorcio
           <input type="text" name="cuit" placeholder="30-XXXXXXXX-X" value="${c ? escapeHtml(c.cuit) : ""}">
         </label>
-        <label>Matrícula RPA (Ley 941)
-          <input type="text" name="matriculaRPA" placeholder="N.º de matrícula" value="${c ? escapeHtml(c.matriculaRPA) : ""}">
-        </label>
         <label>Fecha de la asamblea de designación
           <input type="date" name="fechaAsamblea" value="${c ? c.fechaAsamblea : ""}">
         </label>
-        <label>Día de vencimiento de expensas
-          <input type="text" name="diaVencimiento" placeholder="10" value="${c ? escapeHtml(c.diaVencimiento) : "10"}">
+        <label>Cantidad de UF (unidades funcionales)
+          <input type="number" min="0" name="cantidadUF" value="${c ? escapeHtml(c.cantidadUF) : ""}">
+        </label>
+        <label>Cantidad de pisos
+          <input type="number" min="0" name="cantidadPisos" value="${c ? escapeHtml(c.cantidadPisos) : ""}">
+        </label>
+        <label>Departamentos por piso
+          <input type="number" min="0" name="deptosPorPiso" value="${c ? escapeHtml(c.deptosPorPiso) : ""}">
+        </label>
+        <label>¿Tiene empleados?
+          <select name="tieneEmpleados">
+            <option value="no" ${c && c.tieneEmpleados === "no" ? "selected" : ""}>No</option>
+            <option value="si" ${c && c.tieneEmpleados === "si" ? "selected" : ""}>Sí</option>
+          </select>
+        </label>
+        <label>¿Tiene amenities?
+          <select name="tieneAmenities">
+            <option value="no" ${c && c.tieneAmenities === "no" ? "selected" : ""}>No</option>
+            <option value="si" ${c && c.tieneAmenities === "si" ? "selected" : ""}>Sí</option>
+          </select>
+        </label>
+        <label>¿Tiene cocheras?
+          <select name="tieneCocheras">
+            <option value="no" ${c && c.tieneCocheras === "no" ? "selected" : ""}>No</option>
+            <option value="si" ${c && c.tieneCocheras === "si" ? "selected" : ""}>Sí</option>
+          </select>
         </label>
 
         <h3 class="form-subtitle">Datos del administrador</h3>
@@ -253,6 +365,9 @@ function renderInicio() {
         </label>
         <label>CUIT / CUIL
           <input type="text" name="administradorCUIT" value="${c ? escapeHtml(c.administrador.cuit) : ""}">
+        </label>
+        <label>Matrícula RPA (Ley 941)
+          <input type="text" name="matriculaRPA" placeholder="N.º de matrícula" value="${c ? escapeHtml(c.administrador.matriculaRPA) : ""}">
         </label>
         <label>Domicilio / oficina de atención
           <input type="text" name="administradorDomicilio" value="${c ? escapeHtml(c.administrador.domicilio) : ""}">
@@ -267,26 +382,28 @@ function renderInicio() {
           <input type="text" name="horarioAtencion" value="${c ? escapeHtml(c.horarioAtencion) : "10:00 a 16:00 hs"}">
         </label>
 
-        <h3 class="form-subtitle">Cuenta bancaria oficial del consorcio</h3>
-        <label>Banco
-          <input type="text" name="bancoNombre" value="${c ? escapeHtml(c.banco.nombre) : ""}">
-        </label>
-        <label>N.º de cuenta
-          <input type="text" name="bancoCuenta" value="${c ? escapeHtml(c.banco.cuenta) : ""}">
-        </label>
-        <label>CBU
-          <input type="text" name="bancoCBU" value="${c ? escapeHtml(c.banco.cbu) : ""}">
-        </label>
-        <label>Alias
-          <input type="text" name="bancoAlias" value="${c ? escapeHtml(c.banco.alias) : ""}">
-        </label>
+        <h3 class="form-subtitle">Cuentas bancarias del consorcio</h3>
+        <div class="form-full">
+          <p class="muted small">El consorcio puede tener más de una cuenta (por ejemplo, la titular y la de reserva). Agregá todas las que correspondan.</p>
+          <div id="bancosContainer"></div>
+          <button type="button" id="btnAgregarBanco" class="btn-secondary">+ Agregar cuenta</button>
+        </div>
 
-        <h3 class="form-subtitle">Administrador saliente (para el reclamo, si corresponde)</h3>
+        <h3 class="form-subtitle">Administrador/a saliente (para el reclamo, si corresponde)</h3>
         <label>Nombre y apellido
           <input type="text" name="salienteNombre" value="${c ? escapeHtml(c.saliente.nombre) : ""}">
         </label>
-        <label>Domicilio / oficina
+        <label>Matrícula RPA
+          <input type="text" name="salienteMatricula" value="${c ? escapeHtml(c.saliente.matricula) : ""}">
+        </label>
+        <label>Domicilio legal
           <input type="text" name="salienteDomicilio" value="${c ? escapeHtml(c.saliente.domicilio) : ""}">
+        </label>
+        <label>Email
+          <input type="email" name="salienteEmail" value="${c ? escapeHtml(c.saliente.email) : ""}">
+        </label>
+        <label>Teléfono
+          <input type="text" name="salienteTelefono" value="${c ? escapeHtml(c.saliente.telefono) : ""}">
         </label>
         <label>Fecha de notificación fehaciente de remoción/renuncia
           <input type="date" name="salienteFechaNotificacion" value="${c ? c.saliente.fechaNotificacion : ""}">
@@ -300,6 +417,11 @@ function renderInicio() {
   `;
 
   document.getElementById("formConsorcio").addEventListener("submit", onSubmitConsorcio);
+  renderBancosContainer();
+  document.getElementById("btnAgregarBanco").addEventListener("click", () => {
+    bancosEnEdicion.push({ etiqueta: "", nombre: "", cuenta: "", cbu: "", alias: "" });
+    renderBancosContainer();
+  });
 
   if (window.DriveSync) window.DriveSync.bindEvents(el);
 
@@ -333,26 +455,34 @@ function onSubmitConsorcio(e) {
   c.nombre = datos.nombre;
   c.direccion = datos.direccion;
   c.cuit = datos.cuit;
-  c.matriculaRPA = datos.matriculaRPA;
   c.fechaAsamblea = datos.fechaAsamblea;
-  c.diaVencimiento = datos.diaVencimiento;
   c.horarioAtencion = datos.horarioAtencion;
+  c.cantidadUF = datos.cantidadUF;
+  c.cantidadPisos = datos.cantidadPisos;
+  c.deptosPorPiso = datos.deptosPorPiso;
+  c.tieneEmpleados = datos.tieneEmpleados;
+  c.tieneAmenities = datos.tieneAmenities;
+  c.tieneCocheras = datos.tieneCocheras;
   c.administrador = {
     nombre: datos.administradorNombre,
     cuit: datos.administradorCUIT,
+    matriculaRPA: datos.matriculaRPA,
     domicilio: datos.administradorDomicilio,
     email: datos.administradorEmail,
     telefono: datos.administradorTelefono
   };
-  c.banco = {
-    nombre: datos.bancoNombre,
-    cuenta: datos.bancoCuenta,
-    cbu: datos.bancoCBU,
-    alias: datos.bancoAlias
-  };
+  c.bancos = bancosEnEdicion
+    .filter((b) => b.etiqueta || b.nombre || b.cuenta || b.cbu || b.alias)
+    .map((b) => ({ etiqueta: b.etiqueta || "", nombre: b.nombre || "", cuenta: b.cuenta || "", cbu: b.cbu || "", alias: b.alias || "" }));
+  if (!c.bancos.length) {
+    c.bancos = [{ etiqueta: "Cuenta titular", nombre: "", cuenta: "", cbu: "", alias: "" }];
+  }
   c.saliente = {
     nombre: datos.salienteNombre,
+    matricula: datos.salienteMatricula,
     domicilio: datos.salienteDomicilio,
+    email: datos.salienteEmail,
+    telefono: datos.salienteTelefono,
     fechaNotificacion: datos.salienteFechaNotificacion
   };
 
@@ -400,6 +530,7 @@ function renderToma(c) {
         <p class="riesgo">${escapeHtml(item.riesgo)}</p>
         ${item.jurisprudencia ? `<h4>Jurisprudencia</h4><p class="muted">${escapeHtml(item.jurisprudencia)}</p>` : ""}
         ${item.tips ? `<h4>Tip práctico</h4><p>${escapeHtml(item.tips)}</p>` : ""}
+        ${item.comoProceder ? `<details class="proceder-details"><summary>📋 Cómo proceder — paso a paso</summary><p>${escapeHtml(item.comoProceder)}</p></details>` : ""}
         <label class="notas-label">Notas propias
           <textarea class="notas-textarea" data-id="${item.id}" rows="2" placeholder="Turno, contacto, número de expediente...">${escapeHtml(notas)}</textarea>
         </label>
@@ -525,6 +656,7 @@ function renderReclamo(c) {
         <span class="badge-plazo">${escapeHtml(et.plazo)}</span>
         <p>${escapeHtml(et.descripcion)}</p>
         <p class="muted"><strong>Fundamento:</strong> ${et.fundamento.map(escapeHtml).join(" · ")}</p>
+        ${et.desarrollo ? `<details class="proceder-details"><summary>📋 Desarrollo — cómo se procede en detalle</summary><p>${escapeHtml(et.desarrollo)}</p></details>` : ""}
         ${et.generaDocumento ? `<button class="btn-secondary" data-ir-generador="${et.generaDocumento}">Generar Carta Documento →</button>` : ""}
       </div>
     </div>
@@ -557,6 +689,36 @@ function renderReclamo(c) {
 // ---------------------------------------------------------------------------
 // TAB: Auditoría técnica
 // ---------------------------------------------------------------------------
+const ESTADOS_AUDITORIA = [
+  { value: "pendiente", label: "Pendiente" },
+  { value: "en-curso", label: "Revisando" },
+  { value: "con-observaciones", label: "Verificado — con observaciones" },
+  { value: "ok", label: "Verificado — sin observaciones" }
+];
+
+function auditoriaProgreso(c) {
+  const ids = auditoriaIds();
+  let hechos = 0;
+  ids.forEach((id) => {
+    const registro = c.auditoria[id];
+    const item = auditoriaItemPorId(id);
+    if (item && item.opcional && registro && registro.tiene === "no") {
+      hechos++; // no aplica: no puede quedar "pendiente" para siempre
+    } else if (registro && (registro.estado === "ok" || registro.estado === "con-observaciones")) {
+      hechos++;
+    }
+  });
+  return { hechos, total: ids.length, pct: ids.length ? Math.round((hechos / ids.length) * 100) : 0 };
+}
+
+function auditoriaItemPorId(id) {
+  for (const mod of AUDITORIA_MODULOS) {
+    const found = mod.items.find((i) => i.id === id);
+    if (found) return found;
+  }
+  return null;
+}
+
 function renderAuditoria(c) {
   const el = document.getElementById("tab-auditoria");
   if (!c) {
@@ -564,30 +726,76 @@ function renderAuditoria(c) {
     return;
   }
 
-  const totalIds = auditoriaIds();
-  const prog = progresoDe(c.auditoria, totalIds);
+  const prog = auditoriaProgreso(c);
 
   const modulosHtml = AUDITORIA_MODULOS.map((mod) => {
     const itemsHtml = mod.items.map((item) => {
-      const estadoActual = (c.auditoria[item.id] && c.auditoria[item.id].estado) || "pendiente";
-      const notas = (c.auditoria[item.id] && c.auditoria[item.id].notas) || "";
-      return `
-      <details class="checklist-item estado-${estadoActual}" data-id="${item.id}">
-        <summary>
-          <span class="item-titulo">${escapeHtml(item.titulo)}</span>
-          <select class="estado-select" data-id="${item.id}">
-            <option value="pendiente" ${estadoActual === "pendiente" ? "selected" : ""}>Pendiente</option>
-            <option value="en-curso" ${estadoActual === "en-curso" ? "selected" : ""}>Revisando</option>
-            <option value="hecho" ${estadoActual === "hecho" ? "selected" : ""}>Verificado OK</option>
-          </select>
-        </summary>
-        <div class="item-body">
-          <h4>Puntos a verificar</h4>
-          <ul>${item.verificar.map((v) => `<li>${escapeHtml(v)}</li>`).join("")}</ul>
+      const registro = c.auditoria[item.id] || {};
+      const estadoActual = registro.estado || "pendiente";
+      const notas = registro.notas || "";
+      const campos = registro.campos || {};
+      const tiene = registro.tiene || (item.opcional ? "" : "si");
+      const noAplica = item.opcional && tiene === "no";
+
+      const camposHtml = (item.campos || [])
+        .map((campo) => {
+          const valor = campos[campo.id] || "";
+          if (campo.type === "select") {
+            return `<label>${escapeHtml(campo.label)}
+              <select class="campo-input" data-id="${item.id}" data-campo="${campo.id}">
+                <option value="">— Sin definir —</option>
+                ${campo.options.map((op) => `<option value="${escapeHtml(op)}" ${valor === op ? "selected" : ""}>${escapeHtml(op)}</option>`).join("")}
+              </select>
+            </label>`;
+          }
+          if (campo.type === "textarea") {
+            return `<label class="form-full">${escapeHtml(campo.label)}
+              <textarea class="campo-input" data-id="${item.id}" data-campo="${campo.id}" rows="2">${escapeHtml(valor)}</textarea>
+            </label>`;
+          }
+          return `<label>${escapeHtml(campo.label)}
+            <input type="${campo.type}" class="campo-input" data-id="${item.id}" data-campo="${campo.id}" value="${escapeHtml(valor)}">
+          </label>`;
+        })
+        .join("");
+
+      const tieneToggleHtml = item.opcional
+        ? `<label class="tiene-toggle">${escapeHtml(item.preguntaTiene || "¿El consorcio tiene esta instalación?")}
+            <select class="tiene-select" data-id="${item.id}">
+              <option value="" ${tiene === "" ? "selected" : ""}>— Sin definir —</option>
+              <option value="si" ${tiene === "si" ? "selected" : ""}>Sí, tiene</option>
+              <option value="no" ${tiene === "no" ? "selected" : ""}>No tiene</option>
+            </select>
+          </label>`
+        : "";
+
+      const cuerpoHtml = noAplica
+        ? `<p class="muted">No aplica: se marcó que este consorcio no tiene esta instalación. Cambiá la respuesta de arriba si corresponde revisarlo.</p>`
+        : `
+          ${item.verificar ? `<h4>Puntos a verificar</h4><ul>${item.verificar.map((v) => `<li>${escapeHtml(v)}</li>`).join("")}</ul>` : ""}
+          ${item.nota ? `<p class="muted small">${escapeHtml(item.nota)}</p>` : ""}
+          ${item.campos ? `<h4>Relevamiento</h4><div class="form-grid">${camposHtml}</div>` : ""}
           ${item.riesgo ? `<h4>Riesgo por incumplimiento</h4><p class="riesgo">${escapeHtml(item.riesgo)}</p>` : ""}
+          ${item.siNoLoTengo ? `<details class="proceder-details"><summary>📋 Si no tengo este libro / no sé si está bien confeccionado</summary><p>${escapeHtml(item.siNoLoTengo)}</p></details>` : ""}
+          ${item.queMirar ? `<details class="proceder-details"><summary>📋 Qué mirar / qué pedir</summary><p>${escapeHtml(item.queMirar)}</p></details>` : ""}
+          <label class="estado-label">Estado
+            <select class="estado-select" data-id="${item.id}">
+              ${ESTADOS_AUDITORIA.map((es) => `<option value="${es.value}" ${estadoActual === es.value ? "selected" : ""}>${es.label}</option>`).join("")}
+            </select>
+          </label>
           <label class="notas-label">Notas de relevamiento
             <textarea class="notas-textarea" data-id="${item.id}" rows="2" placeholder="Observaciones, fecha de inspección...">${escapeHtml(notas)}</textarea>
-          </label>
+          </label>`;
+
+      return `
+      <details class="checklist-item estado-${noAplica ? "no-aplica" : estadoActual}" data-id="${item.id}">
+        <summary>
+          <span class="item-titulo">${escapeHtml(item.titulo)}</span>
+          <span class="badge-estado">${noAplica ? "No aplica" : ESTADOS_AUDITORIA.find((e) => e.value === estadoActual).label}</span>
+        </summary>
+        <div class="item-body">
+          ${tieneToggleHtml}
+          ${cuerpoHtml}
         </div>
       </details>`;
     }).join("");
@@ -605,14 +813,67 @@ function renderAuditoria(c) {
       <p class="muted">Relevamiento técnico, edilicio, contable, fiscal y laboral para usar como "Auditoría Técnica Previa de Toma de Razón" ante el consejo de propietarios.</p>
       <div class="progress-bar-wrap">
         <div class="progress-bar"><div class="progress-bar-fill" style="width:${prog.pct}%"></div></div>
-        <span>${prog.hechos} / ${prog.total} verificados (${prog.pct}%)</span>
+        <span>${prog.hechos} / ${prog.total} resueltos (${prog.pct}%)</span>
       </div>
       <p class="muted small">Página oficial de AGC para ascensores, instalaciones térmicas, IFL y fachadas: <a href="https://instalaciones.agcontrol.gob.ar/" target="_blank" rel="noopener">instalaciones.agcontrol.gob.ar</a></p>
     </section>
     ${modulosHtml}
   `;
 
-  bindChecklistEvents(el, c, "auditoria");
+  bindAuditoriaEvents(el, c);
+}
+
+function bindAuditoriaEvents(el, c) {
+  el.querySelectorAll(".estado-select").forEach((sel) => {
+    sel.addEventListener("click", (e) => e.stopPropagation());
+    sel.addEventListener("change", (e) => {
+      const id = e.target.dataset.id;
+      c.auditoria[id] = c.auditoria[id] || {};
+      c.auditoria[id].estado = e.target.value;
+      saveState();
+      renderAuditoria(c);
+    });
+  });
+
+  el.querySelectorAll(".tiene-select").forEach((sel) => {
+    sel.addEventListener("click", (e) => e.stopPropagation());
+    sel.addEventListener("change", (e) => {
+      const id = e.target.dataset.id;
+      c.auditoria[id] = c.auditoria[id] || {};
+      c.auditoria[id].tiene = e.target.value;
+      saveState();
+      renderAuditoria(c);
+    });
+  });
+
+  el.querySelectorAll(".campo-input").forEach((input) => {
+    input.addEventListener("click", (e) => e.stopPropagation());
+    input.addEventListener("input", (e) => {
+      const id = e.target.dataset.id;
+      const campo = e.target.dataset.campo;
+      c.auditoria[id] = c.auditoria[id] || {};
+      c.auditoria[id].campos = c.auditoria[id].campos || {};
+      c.auditoria[id].campos[campo] = e.target.value;
+      saveState();
+    });
+    input.addEventListener("change", (e) => {
+      const id = e.target.dataset.id;
+      const campo = e.target.dataset.campo;
+      c.auditoria[id] = c.auditoria[id] || {};
+      c.auditoria[id].campos = c.auditoria[id].campos || {};
+      c.auditoria[id].campos[campo] = e.target.value;
+      saveState();
+    });
+  });
+
+  el.querySelectorAll(".notas-textarea").forEach((ta) => {
+    ta.addEventListener("input", (e) => {
+      const id = e.target.dataset.id;
+      c.auditoria[id] = c.auditoria[id] || {};
+      c.auditoria[id].notas = e.target.value;
+      saveState();
+    });
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -735,25 +996,37 @@ function renderGenerador(c) {
 function renderPlantillaSeleccionada(c) {
   const key = document.getElementById("selectorPlantilla").value;
   const plantilla = PLANTILLAS[key];
+  const bancos = Array.isArray(c.bancos) && c.bancos.length ? c.bancos : [{ etiqueta: "Cuenta titular", nombre: "", cuenta: "", cbu: "", alias: "" }];
+  const bancoPrincipal = bancos[0];
+  const cuentasBancariasTexto = bancos
+    .map((b) => {
+      const etiqueta = b.etiqueta ? `${b.etiqueta} — ` : "";
+      return `- ${etiqueta}Banco: ${b.nombre || "[banco]"} · Cuenta N.º: ${b.cuenta || "[cuenta]"} · CBU: ${b.cbu || "[cbu]"} · Alias: ${b.alias || "[alias]"}`;
+    })
+    .join("\n");
+
   const datos = {
     consorcioNombre: c.nombre,
     consorcioDireccion: c.direccion,
     consorcioCUIT: c.cuit,
     administradorNombre: c.administrador.nombre,
     administradorCUIT: c.administrador.cuit,
-    matriculaRPA: c.matriculaRPA,
+    matriculaRPA: c.administrador.matriculaRPA,
     administradorDomicilio: c.administrador.domicilio,
     administradorEmail: c.administrador.email,
     administradorTelefono: c.administrador.telefono,
-    bancoNombre: c.banco.nombre,
-    bancoCuenta: c.banco.cuenta,
-    bancoCBU: c.banco.cbu,
-    bancoAlias: c.banco.alias,
+    bancoNombre: bancoPrincipal.nombre,
+    bancoCuenta: bancoPrincipal.cuenta,
+    bancoCBU: bancoPrincipal.cbu,
+    bancoAlias: bancoPrincipal.alias,
+    cuentasBancariasTexto,
     fechaAsamblea: c.fechaAsamblea ? new Date(c.fechaAsamblea + "T00:00:00").toLocaleDateString("es-AR") : "[fecha de asamblea]",
     fechaHoy: fechaHoyStr(),
-    diaVencimiento: c.diaVencimiento,
     salienteNombre: c.saliente.nombre,
+    salienteMatricula: c.saliente.matricula,
     salienteDomicilio: c.saliente.domicilio,
+    salienteEmail: c.saliente.email,
+    salienteTelefono: c.saliente.telefono,
     horarioAtencion: c.horarioAtencion
   };
 

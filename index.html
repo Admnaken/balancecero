@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Balance Cero — Toma de Posesión de Consorcios</title>
-<meta name="description" content="Herramienta de Balance Cero para administradores de consorcios de CABA: checklist de toma de posesión, auditoría técnica, legajos de empleados y generador de documentos.">
+<title>Administración NAKEN — Aplicación de Balance Cero</title>
+<meta name="description" content="Aplicación de Balance Cero de Administración NAKEN para administradores de consorcios de CABA: checklist de toma de posesión, auditoría técnica, legajos de empleados y generador de documentos.">
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -16,11 +16,11 @@
   <div id="lockScreen" class="lock-screen">
     <div class="lock-card">
       <div class="lock-logo">
-        <img src="assets/logo.png" alt="Balance Cero" class="lock-logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <img src="assets/logo.png" alt="Administración NAKEN" class="lock-logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
         <div class="lock-logo-fallback" style="display:none;">BC</div>
       </div>
-      <h1 class="lock-title">Balance Cero</h1>
-      <p class="lock-subtitle">Panel de gestión de consorcios</p>
+      <h1 class="lock-title">Administración NAKEN</h1>
+      <p class="lock-subtitle">Aplicación de Balance Cero</p>
 
       <form id="lockForm" class="lock-form" autocomplete="off">
         <label class="lock-label" for="lockPassword">Clave de acceso</label>
@@ -49,10 +49,15 @@
         <div class="app-title">
           <img src="assets/logo.png" alt="" class="header-logo" onerror="this.style.display='none';">
           <div>
-            <h1>Balance Cero</h1>
+            <h1>Administración NAKEN</h1>
             <span class="app-subtitle">Toma de Posesión de Consorcios · CABA</span>
           </div>
         </div>
+        <div class="app-title-right">
+          <span class="app-brand-right">Aplicación de Balance Cero</span>
+        </div>
+      </div>
+      <div class="app-header-toolbar">
         <div class="consorcio-selector">
           <select id="selectorConsorcio" aria-label="Consorcio activo"></select>
           <button id="btnNuevoConsorcio" class="btn-secondary">+ Nuevo consorcio</button>

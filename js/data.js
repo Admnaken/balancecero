@@ -27,7 +27,9 @@ const TOMA_POSESION = [
     dondeSeHace: "En el edificio o lugar indicado en la convocatoria (o de forma mixta/virtual si el reglamento lo permite).",
     riesgo:
       "Una asamblea mal convocada o sin las mayorías requeridas puede ser impugnada judicialmente, dejando sin efecto la designación y todos los trámites posteriores.",
-    tips: "Guardá las constancias de citación (mail, carta documento, cartelera) para blindar la validez de la asamblea ante una eventual impugnación."
+    tips: "Guardá las constancias de citación (mail, carta documento, cartelera) para blindar la validez de la asamblea ante una eventual impugnación.",
+    comoProceder:
+      "1) Revisá el Reglamento de Copropiedad: ahí figuran las mayorías exigidas para remover/designar administrador (simple, absoluta o especial) y quién puede convocar (el propio administrador, el Consejo de Propietarios o un porcentaje de copropietarios). 2) Redactá la convocatoria con orden del día claro (por ejemplo: \"1. Remoción del administrador saliente. 2. Designación de nuevo administrador. 3. Autorización de gestiones ante bancos y organismos\"). 3) Notificá a todos los propietarios con la anticipación que fije el reglamento (suele ser 5 a 10 días hábiles), dejando constancia fehaciente (carta documento, mail con acuse, o notificación personal firmada) — no alcanza con la cartelera sola si el reglamento exige notificación fehaciente. 4) El día de la asamblea, labrá un acta provisoria con el listado de presentes/representados (firmas o poderes), verificá el quórum exigido y, si se alcanza, votá cada punto del orden del día dejando asentado el resultado numérico. 5) Elegí Presidente y Secretario de la asamblea y dos copropietarios para firmar el acta definitiva. 6) Con el acta aprobada, ya podés avanzar con los pasos siguientes (asentamiento en el libro, protocolización, etc.)."
   },
   {
     id: "libro-actas",
@@ -46,7 +48,9 @@ const TOMA_POSESION = [
     dondeSeHace: "Libro físico o digital habilitado del consorcio.",
     riesgo:
       "Un acta no asentada o sin las firmas requeridas no acredita la representación legal frente a terceros (bancos, ARCA, AGIP).",
-    tips: "Si el libro está en poder del administrador saliente y no lo entrega, este paso se resuelve junto con el reclamo de documentación (ver sección 'Reclamo al administrador saliente')."
+    tips: "Si el libro está en poder del administrador saliente y no lo entrega, este paso se resuelve junto con el reclamo de documentación (ver sección 'Reclamo al administrador saliente').",
+    comoProceder:
+      "1) Conseguí el Libro de Actas físico (te lo debe entregar el saliente) o, si el consorcio usa libro digital/rubricado electrónicamente, el acceso correspondiente. 2) Verificá que la rúbrica esté vigente y que las últimas hojas utilizadas coincidan con la última acta asentada — así detectás si hay actas 'salteadas' o el libro está completo. 3) Transcribí o pegá el acta de la asamblea de designación en la siguiente foja en blanco, respetando el orden cronológico y sin dejar espacios en blanco entre actas anteriores. 4) Recabá las firmas de Presidente y Secretario de la asamblea, y de los dos propietarios designados como firmantes, todos en la misma foja. 5) Si el libro está agotado (sin fojas), iniciá en paralelo el trámite de un libro nuevo (ver la guía 'Qué hacer si falta un libro' en el módulo de Auditoría técnica). 6) Si el saliente se niega a entregar el libro, no frenés el resto del circuito: podés operar con el acta certificada por escribano mientras tramitás la entrega forzosa por la vía del reclamo."
   },
   {
     id: "protocolizacion",
@@ -65,7 +69,9 @@ const TOMA_POSESION = [
     dondeSeHace: "Escribanía de su confianza.",
     riesgo:
       "Sin certificación notarial, la mayoría de los bancos rechaza el cambio de firmas.",
-    tips: "Pedí varias copias certificadas: se usan en el banco, ARCA, AGIP y AGC."
+    tips: "Pedí varias copias certificadas: se usan en el banco, ARCA, AGIP y AGC.",
+    comoProceder:
+      "1) Llevá el Libro de Actas original (con el acta ya asentada y firmada) a una escribanía. 2) Pedí una \"certificación de copia fiel\" o \"testimonio\" del acta: el escribano coteja el original contra la copia y certifica que son idénticas, con su firma y sello notarial (y legalización del Colegio de Escribanos si el organismo destinatario lo requiere, por ejemplo para trámites interjurisdiccionales). 3) Sacá al menos 4 a 6 copias certificadas: una para el banco, una para ARCA, una para AGIP, una para AGC y una o dos de resguardo. 4) Guardá el libro original siempre en tu poder o en un lugar seguro del consorcio — nunca lo entregues como \"original\" a ningún organismo, solo copias certificadas. 5) Conservá el comprobante de la escribanía (factura/recibo) como gasto del consorcio, a rendir en la próxima asamblea."
   },
   {
     id: "matricula-rpa",
@@ -89,7 +95,9 @@ const TOMA_POSESION = [
       "Trámite online vía plataforma TAD (Trámites a Distancia) del GCBA, con usuario miBA nivel 2/3. Requiere aprobar examen presencial previo (coordinar por registroconsorcios@buenosaires.gob.ar).",
     riesgo:
       "Ejercer la representación o gestión de fondos sin acreditación vigente ante el RPA expone a sanciones administrativas y multas de Defensa al Consumidor / AGC (Art. 15 Ley 941).",
-    tips: "Trámite gratuito. Si es la primera matriculación, reservá turno de examen con anticipación: suele ser el paso más largo del circuito."
+    tips: "Trámite gratuito. Si es la primera matriculación, reservá turno de examen con anticipación: suele ser el paso más largo del circuito.",
+    comoProceder:
+      "1) Si ya tenés matrícula, entrá a la plataforma TAD (Trámites a Distancia) del GCBA con tu usuario miBA y verificá la fecha de vencimiento y el estado de tu inscripción en el Registro Público de Administradores. 2) Si está vencida o nunca te matriculaste, iniciá el trámite \"Inscripción al Registro Público de Administradores\" en TAD, cargando: DNI, certificado de antecedentes penales (Registro Nacional de Reincidencia, trámite online), certificado de libre deuda alimentaria, y constancia de CUIT/inscripción en ARCA. 3) Reservá turno para el examen presencial que toma el GCBA (se coordina por registroconsorcios@buenosaires.gob.ar) — es un cuestionario sobre Ley 941, CCyC y normativa de consorcios. 4) Aprobado el examen, completá el curso de capacitación de 60 horas cuando corresponda (habilitado por entidades reconocidas por el GCBA). 5) Con todo aprobado, el GCBA emite el certificado de matrícula vigente, que debés descargar y guardar: es el documento que vas a adjuntar en todos los trámites siguientes (banco, ARCA, AGIP, AGC). 6) Marcá en el calendario la fecha de renovación (la matrícula tiene vigencia limitada) para no quedar inhabilitado a mitad de gestión."
   },
   {
     id: "banco",
@@ -117,7 +125,9 @@ const TOMA_POSESION = [
       "Si no se formaliza el alta, el banco mantiene las firmas congeladas o da de baja las anteriores, imposibilitando el pago de expensas, sueldos del personal (CCT 589/10) y servicios esenciales. Si el saliente opera la cuenta luego de su remoción, incurre en responsabilidad civil y eventualmente penal (defraudación o retención indebida).",
     tips: "Llevá todo en copias certificadas y pedí por escrito la constancia de recepción del trámite en el banco.",
     jurisprudencia:
-      "\"Consorcio de Propietarios Scalabrini Ortiz c/ A., J. M. s/ Remoción de Administrador\" (CNCiv., Sala H): la representación legal del consorcio emana de la asamblea soberana y es válida frente a terceros e instituciones bancarias una vez formalizada conforme al reglamento y asentada en los libros obligatorios."
+      "\"Consorcio de Propietarios Scalabrini Ortiz c/ A., J. M. s/ Remoción de Administrador\" (CNCiv., Sala H): la representación legal del consorcio emana de la asamblea soberana y es válida frente a terceros e instituciones bancarias una vez formalizada conforme al reglamento y asentada en los libros obligatorios.",
+    comoProceder:
+      "Documentación a reunir ANTES de ir al banco (llevá todo en original y copia, o copia certificada donde se indique): 1) Copia certificada por escribano del Acta de Asamblea de designación. 2) Copia del Reglamento de Copropiedad y Administración. 3) Certificado de matrícula vigente en el RPA (Ley 941). 4) Constancia de CUIT del consorcio (constancia de inscripción ARCA) y de inscripción en AGIP. 5) DNI y constancia de CUIT/CUIL del nuevo administrador. 6) Nota formal firmada solicitando la baja de firmas del administrador saliente y el alta de las tuyas (podés generarla en la pestaña \"Generador de documentos\" de esta app). 7) Si el reglamento o el banco lo exige, poder o autorización específica de la asamblea para operar la cuenta. Presentación ante el banco: 1) Pedí turno en la sucursal donde opera la cuenta del consorcio (Banca Empresas/PyME si la entidad lo maneja así) — muchos bancos exigen que el trámite lo inicie el titular de la cuenta, no un tercero. 2) Entregá la nota formal junto con toda la documentación de respaldo, y pedí que te sellen o firmen una copia como constancia de recepción (\"cargo\"). 3) El banco suele derivar el trámite a su área legal/KYC para validar la documentación (personería, representación, cumplimiento fiscal) — preguntá el plazo estimado de resolución. 4) Una vez aprobado, te van a citar (presencial u online según el banco) para registrar tu firma y, si corresponde, dar de baja el acceso de homebanking del saliente y darte de alta a vos. 5) Confirmá que quede completamente bloqueado el acceso del administrador saliente (firma, tarjeta, homebanking, token) antes de retirarte — es el punto más importante para evitar que siga operando la cuenta después de su remoción. 6) Guardá la constancia de alta y el nuevo CBU/alias (si cambia) para incluirlos en la circular a los propietarios."
   },
   {
     id: "arca",
@@ -141,7 +151,9 @@ const TOMA_POSESION = [
     riesgo:
       "Sin la vinculación, el administrador no puede presentar declaraciones juradas (F.931), generar VEP ni operar el CUIT del consorcio, paralizando pagos de cargas sociales y trámites fiscales.",
     tips: "Podés usar el modelo de nota del Generador de Documentos para adjuntar como presentación digital.",
-    generaDocumento: "arca"
+    generaDocumento: "arca",
+    comoProceder:
+      "1) Entrá a la web de ARCA (ex AFIP) con tu Clave Fiscal personal (nivel de seguridad 3). 2) Ingresá al servicio \"Administrador de Relaciones de Clave Fiscal\" y seleccioná \"Nueva Relación\". 3) Elegí la opción para vincularte como \"Representante Legal\" de una persona jurídica, e ingresá el CUIT del consorcio. 4) El sistema va a requerir que subas la documentación de respaldo (acta de asamblea, reglamento, certificado de matrícula RPA) a través del servicio \"Presentaciones Digitales\" — generá ahí una presentación adjuntando los PDF escaneados, indicando como motivo \"cambio de administrador/representante legal\". 5) Si el trámite no se resuelve online, ARCA puede citarte a la agencia correspondiente al domicilio fiscal del consorcio para ratificar la documentación en forma presencial. 6) Una vez aprobada la vinculación, vas a poder generar el VEP, presentar el F.931 (cargas sociales del personal) y operar todos los servicios del CUIT del consorcio con tu propia Clave Fiscal. 7) Revisá también que no haya declaraciones juradas atrasadas o VEP impagos a tu nombre como representante saliente-entrante: heredás la situación fiscal del consorcio, así que conviene chequear el estado de cuenta corriente apenas tengas acceso."
   },
   {
     id: "agip",
@@ -166,7 +178,9 @@ const TOMA_POSESION = [
     riesgo:
       "Sin la Clave Ciudad vinculada, no se pueden gestionar obligaciones tributarias locales (Ingresos Brutos si correspondiera, ABL del consorcio, etc.) ni informar cambios de autoridades.",
     tips: "Coordiná este trámite junto con el de ARCA: comparten buena parte de la documentación de respaldo.",
-    generaDocumento: "agip"
+    generaDocumento: "agip",
+    comoProceder:
+      "1) Ingresá al portal de AGIP con tu Clave Ciudad (nivel 2 o 3, según el trámite). 2) Buscá el trámite de \"Cambio de representante legal\" o \"Actualización de autoridades\" para el CUIT del consorcio (en algunos casos, si no está disponible online, se presenta por Mesa de Entradas de AGIP o por nota digital). 3) Cargá la documentación: DNI, acta de asamblea certificada, reglamento de copropiedad, certificado de matrícula RPA y un comprobante de servicio a nombre del consorcio en el domicilio fiscal (para acreditar el domicilio). 4) Si AGIP lo requiere, presentá también la nota formal (podés generarla en el Generador de Documentos de esta app) explicando el cambio de gestión. 5) Una vez procesado el cambio, revisá el estado de Ingresos Brutos (si el consorcio tributara por alguna actividad) y del ABL del inmueble, para detectar deudas o pagos atrasados que haya dejado el saliente. 6) Guardá la constancia de la gestión: te la van a pedir si necesitás tramitar después certificados de libre deuda de AGIP."
   },
   {
     id: "agc",
@@ -189,7 +203,9 @@ const TOMA_POSESION = [
     dondeSeHace: "Portal instalaciones.agcontrol.gob.ar — inscripción online como propietario/administrador/responsable del inmueble.",
     riesgo:
       "Clausura preventiva de ascensores/calderas, multas severas y rechazo de cobertura de seguros por falta de registro o vencimiento de obleas (matafuegos, ascensores).",
-    tips: "Una vez inscripto, deberás contratar profesionales matriculados para cada instalación (ascensorista, gasista, idóneo en incendio) que cargarán los reportes técnicos periódicos."
+    tips: "Una vez inscripto, deberás contratar profesionales matriculados para cada instalación (ascensorista, gasista, idóneo en incendio) que cargarán los reportes técnicos periódicos.",
+    comoProceder:
+      "Qué presentar y cómo hacerlo en el portal de instalaciones de la AGC (instalaciones.agcontrol.gob.ar): 1) Ingresá con tu Clave Ciudad (o CUIT/usuario habilitado) y buscá la opción para registrarte como \"Administrador/Responsable de inmueble\" — vas a necesitar los datos catastrales del edificio (circunscripción, sección, manzana, parcela) que suelen figurar en la boleta de ABL o en el Reglamento de Copropiedad. 2) Cargá tu DNI, matrícula RPA vigente y el acta de designación como respaldo de que sos el responsable habilitado para operar el inmueble en el sistema. 3) Una vez vinculado al inmueble, el sistema te muestra las instalaciones ya registradas (ascensores, IFCI, tanques, etc.) con sus obleas y vencimientos — revisá cada una para saber qué está vigente y qué vencido. 4) Para renovar una oblea (por ejemplo la de ascensores o la de matafuegos/instalación fija contra incendio) necesitás que un profesional matriculado en el rubro correspondiente (ascensorista, instalador de incendio, gasista matriculado, electricista con matrícula AEA) haga la inspección y cargue el informe técnico directamente en el sistema con su propia clave — el administrador no carga el informe técnico, solo gestiona la habilitación y paga las tasas. 5) El sistema genera una orden de pago (tasa AGC) que tenés que abonar para que se emita la oblea nueva; guardá el comprobante. 6) Descargá o imprimí la oblea vigente y colocala en el lugar visible correspondiente (sala de máquinas, cabina de ascensor, gabinete de incendio) — es lo que va a pedir cualquier inspector. 7) Si hay obleas vencidas y no hay presupuesto o proveedor contratado, dejá constancia por escrito de la gestión iniciada: eso demuestra diligencia de la nueva administración frente a una eventual inspección."
   },
   {
     id: "art",
@@ -211,7 +227,9 @@ const TOMA_POSESION = [
     dondeSeHace: "Ante la compañía aseguradora contratada (verificar/actualizar datos del representante legal del empleador).",
     riesgo:
       "Falta de cobertura vigente o de datos actualizados del representante legal expone al consorcio a responsabilidad directa ante un accidente laboral del personal de edificio.",
-    tips: "Pedile al saliente el certificado de cobertura y el comprobante de \"libre deuda\" como parte del reclamo de documentación."
+    tips: "Pedile al saliente el certificado de cobertura y el comprobante de \"libre deuda\" como parte del reclamo de documentación.",
+    comoProceder:
+      "1) Identificá qué ART tiene contratada el consorcio (figura en los recibos de sueldo del personal o en la póliza) y contactala (teléfono o portal web de la aseguradora) informando el cambio de administración. 2) Pedí que actualicen los datos del representante legal del empleador (vos) en el sistema de la ART, y solicitá por escrito (mail) el certificado de cobertura vigente y la constancia de \"libre deuda\" de la gestión anterior. 3) Verificá que la nómina de trabajadores cubiertos coincida con el personal real del edificio (encargados titulares y suplentes) — es común encontrar personal que ya no trabaja más pero sigue \"cubierto\", o personal real que no figura dado de alta. 4) Revisá la fecha del último examen médico periódico de cada trabajador (obligatorio según la actividad) y coordiná los que estén vencidos. 5) Si detectás falta de pago de cuotas de ART por parte del saliente (lo que puede dejar al personal sin cobertura real pese a la póliza vigente), documentalo: es un punto grave para el reclamo de rendición de cuentas. 6) Guardá copia de la póliza y del comprobante de pago al día como parte de la carpeta de legajos de empleados."
   },
   {
     id: "suterh",
@@ -232,7 +250,9 @@ const TOMA_POSESION = [
     dondeSeHace: "Delegación de SUTERH que corresponda a la zona del edificio (sede central: Sarmiento 2040, CABA), o trámite digital si está disponible.",
     riesgo:
       "Aportes sindicales u obra social no regularizados pueden derivar en reclamos laborales o falta de cobertura de OSPERYH para el personal.",
-    tips: "Aprovechá este contacto para consultar la categoría, adicionales y escala salarial vigente del encargado, y así cotejarlos con los recibos que entregue el saliente."
+    tips: "Aprovechá este contacto para consultar la categoría, adicionales y escala salarial vigente del encargado, y así cotejarlos con los recibos que entregue el saliente.",
+    comoProceder:
+      "1) Comunicate con la delegación de SUTERH correspondiente a la zona del edificio (o la sede central, Sarmiento 2040 CABA) y pedí el circuito vigente para informar cambio de administración — puede ser trámite presencial, telefónico o por formulario digital según el momento. 2) Presentá copia del reglamento de copropiedad, constancia de CUIT del consorcio y tus datos (DNI, matrícula RPA) para que el sindicato actualice el legajo del empleador. 3) Pedí un informe del estado de aportes del personal (sindicales, OSPERYH, fondo SERACARH) para verificar que el saliente no haya dejado meses impagos. 4) Consultá la categoría convencional, antigüedad y escala salarial vigente (CCT 589/10) de cada trabajador para cotejarla con los recibos de sueldo que te entregue el saliente y detectar diferencias. 5) Si hay aportes atrasados o mal categorizados, documentalo por escrito: es un ítem central del reclamo de rendición de cuentas laboral y puede generar responsabilidad solidaria del consorcio si no se regulariza a tiempo."
   },
   {
     id: "circular",
@@ -254,7 +274,9 @@ const TOMA_POSESION = [
     riesgo:
       "Si no se notifica formalmente la CBU del consorcio, un pago realizado por error a una cuenta ajena (por ejemplo del administrador saliente) puede no considerarse cancelatorio de la deuda de expensas.",
     tips: "Este paso conviene hacerlo apenas estén confirmados los datos bancarios (paso 'Banco'), para evitar pagos a cuentas incorrectas.",
-    generaDocumento: "circular"
+    generaDocumento: "circular",
+    comoProceder:
+      "1) Esperá a tener confirmados y operativos los datos bancarios oficiales (paso 'Banco') antes de enviar la circular, para no inducir a los propietarios a pagar en una cuenta que todavía no está habilitada a tu nombre. 2) Generá la circular desde la pestaña 'Generador de documentos' (ya trae los datos del administrador, matrícula y las cuentas bancarias cargadas). 3) Revisá y completá el listado de mails de propietarios/residentes (si no lo tenés completo, usá el Libro Registro de Propietarios o pedilo al Consejo/administración del edificio). 4) Enviá la circular por correo electrónico a toda la nómina y, en paralelo, imprimila y fijala en la cartelera del edificio y en los palieres si el reglamento así lo prevé — la doble vía (mail + cartelera) refuerza la notificación fehaciente. 5) Adjuntá o incluí la ficha de reempadronamiento para actualizar contactos y unidades funcionales. 6) Guardá una copia con fecha de envío/fijación: sirve como respaldo si más adelante alguien alega no haber sido notificado del cambio de cuenta."
   }
 ];
 
@@ -269,7 +291,9 @@ const RECLAMO_ETAPAS = [
     plazo: "10 días hábiles",
     descripcion:
       "Contabilizar los 10 días hábiles administrativos desde que el administrador saliente fue notificado fehacientemente de su remoción o renuncia (copia del Acta de Asamblea o Carta Documento). Durante este plazo conviene enviar una comunicación formal de cortesía indicando lugar, fecha y hora para realizar el Acta de Traspaso.",
-    fundamento: ["Art. 2067 inc. j) CCyC", "Art. 12 Ley 941 CABA"]
+    fundamento: ["Art. 2067 inc. j) CCyC", "Art. 12 Ley 941 CABA"],
+    desarrollo:
+      "1) Identificá con precisión la fecha de notificación fehaciente de la remoción/renuncia (mail con acuse, carta documento, o la propia acta de asamblea notificada) — de ahí arranca el conteo de los 10 días hábiles administrativos (no corridos: se excluyen sábados, domingos y feriados). 2) Cargá esa fecha en el campo 'Fecha de notificación fehaciente' de la pestaña Inicio: la app calcula automáticamente el vencimiento del plazo. 3) Dentro de esos 10 días, enviá una nota o mail formal (de tono cordial pero por escrito) proponiendo día, hora y lugar concretos para el Acta de Traspaso, y pedile que lleve un inventario de lo que va a entregar (libros, documentación, llaves, claves). 4) Si el saliente acepta, labrá en ese encuentro un Acta de Entrega/Traspaso detallando ítem por ítem lo recibido, con fecha y firma de ambas partes — esto evita discusiones posteriores sobre qué se entregó y qué no. 5) Si no responde o se niega a fijar una fecha, dejá vencer el plazo sin más reclamos informales: es momento de pasar a la intimación formal por Carta Documento (etapa 2). 6) Llevá un registro escrito de cada intento de contacto (capturas de mensajes, mails enviados) — sirve como prueba de la diligencia de la nueva administración si el conflicto escala."
   },
   {
     id: "etapa2",
@@ -279,7 +303,9 @@ const RECLAMO_ETAPAS = [
     descripcion:
       "Vencido el plazo de 10 días hábiles sin entrega de inventario, libros y documentación contable/bancaria, se intima formalmente por Carta Documento con plazo perentorio de 48 a 72 horas. Debe citar expresamente el Art. 2067 inc. j) CCyC y el Art. 12 de la Ley 941, detallar individualmente los elementos retenidos, y advertir el inicio de acciones judiciales y la denuncia administrativa ante el RPA.",
     fundamento: ["Art. 2067 inc. j) CCyC", "Art. 12 Ley 941 CABA", "Art. 173 inc. 2° Código Penal (retención indebida)"],
-    generaDocumento: "carta-documento"
+    generaDocumento: "carta-documento",
+    desarrollo:
+      "1) Generá el texto de la Carta Documento desde la pestaña 'Generador de documentos' (ya incluye los artículos legales y los datos del saliente cargados). 2) Antes de enviarla, detallá individualmente los elementos que reclamás (no alcanza con decir 'documentación del consorcio': listá libros por nombre, extractos bancarios por período, legajos de personal, claves de homebanking, etc.) — usá como guía el listado de 'Documentación a reclamar' de esta misma pestaña. 3) Enviala por Correo Argentino (o la empresa de cartas documento que uses) al domicilio legal/fiscal del administrador saliente que tengas registrado, y también, si es posible, a un domicilio alternativo conocido, para reforzar la notificación. 4) Fijá el plazo perentorio de 48 a 72 horas hábiles desde la recepción, y dejá expresamente advertido que, vencido el plazo, vas a iniciar denuncia administrativa ante el RPA y acciones judiciales (medida cautelar de secuestro y rendición de cuentas). 5) Guardá el comprobante de imposición y, apenas esté disponible, la constancia de entrega (o el aviso de que no fue retirada) — son la prueba de la intimación fehaciente que vas a necesitar en las etapas siguientes. 6) Si el saliente responde y entrega parcialmente, documentá por escrito qué recibiste y qué sigue faltando antes de avanzar a la etapa 3."
   },
   {
     id: "etapa3",
@@ -288,7 +314,9 @@ const RECLAMO_ETAPAS = [
     plazo: "Ante persistencia del incumplimiento",
     descripcion:
       "Se inicia una presentación formal ante Defensa del Consumidor / RPA de CABA por infracción al Art. 12 de la Ley 941. El RPA cita a audiencia de conciliación y, de no mediar entrega, aplica sanciones pecuniarias e inhabilitación de la matrícula del administrador saliente.",
-    fundamento: ["Art. 15 Ley 941 CABA"]
+    fundamento: ["Art. 15 Ley 941 CABA"],
+    desarrollo:
+      "Cómo se gestiona la denuncia en el RPA: 1) La denuncia se presenta ante el Registro Público de Administradores de CABA (dependiente de la Dirección General de Defensa y Protección del Consumidor del GCBA), habitualmente vía TAD (Trámites a Distancia) con tu Clave Ciudad/miBA, buscando el trámite de 'Denuncia contra administrador de consorcio' o presentación por Mesa de Entradas si no está disponible online en tu jurisdicción. 2) Armá un escrito de denuncia que identifique: datos del consorcio y del denunciante (vos, como nuevo administrador con matrícula vigente), datos del administrador saliente denunciado (nombre y N.º de matrícula RPA — es un dato clave para que el RPA lo identifique en su padrón), relato claro de los hechos (fecha de remoción/renuncia, falta de entrega de libros y documentación) y encuadre en el Art. 12 de la Ley 941 (obligación de entrega) y Art. 15 (régimen sancionatorio). 3) Adjuntá como prueba: copia del acta de asamblea de designación, la Carta Documento enviada (etapa 2) con su constancia de recepción, y el listado detallado de lo que sigue sin entregarse. 4) El RPA, recibida la denuncia, cita a ambas partes a una audiencia de conciliación (puede ser presencial o virtual) donde intenta que el saliente entregue lo reclamado; si concurre y entrega, se labra acta y se cierra el expediente. 5) Si el saliente no comparece o no entrega, el RPA puede iniciar un sumario administrativo que derive en multa y, en casos graves o reiterados, suspensión o cancelación de su matrícula (lo que le impide seguir administrando cualquier consorcio en CABA). 6) Este trámite es gratuito y no requiere patrocinio letrado, aunque podés hacerte asesorar. Corré esta vía en paralelo (no en lugar) de la vía judicial de la etapa 4 si la urgencia por los fondos o los libros lo justifica."
   },
   {
     id: "etapa4",
@@ -297,7 +325,9 @@ const RECLAMO_ETAPAS = [
     plazo: "Con patrocinio letrado",
     descripcion:
       "Se inician simultáneamente dos acciones en el fuero Civil: (1) Medida Cautelar Autónoma de Secuestro de Libros y Documentación (Art. 209 CPCCN), que permite a un oficial de justicia, con auxilio de la fuerza pública, incautar los libros y carpetas contables; y (2) Juicio por Rendición de Cuentas (Art. 652 CPCCN / Arts. 858 y ss. CCyC), exigiendo la presentación documentada de ingresos y egresos del período administrado.",
-    fundamento: ["Art. 209 CPCCN", "Art. 652 CPCCN", "Arts. 858 a 864 CCyC"]
+    fundamento: ["Art. 209 CPCCN", "Art. 652 CPCCN", "Arts. 858 a 864 CCyC"],
+    desarrollo:
+      "1) Esta etapa requiere patrocinio letrado obligatorio (no es un trámite que se haga sin abogado) — buscá un abogado con experiencia en derecho de consorcios/propiedad horizontal. 2) Con el abogado, armá el expediente de Medida Cautelar Autónoma de Secuestro de Libros y Documentación: se presenta ante el fuero Civil (Juzgado Nacional en lo Civil de CABA), fundada en el Art. 209 CPCCN, acompañando toda la prueba reunida hasta acá (acta de designación, Carta Documento con constancia de recepción, y de corresponder, la denuncia RPA en trámite). Si el juez la concede, libra un oficio para que un oficial de justicia, con auxilio de la fuerza pública si es necesario, concurra al domicilio del saliente a secuestrar libros y documentación. 3) En paralelo (puede ser en la misma presentación o en expediente separado, según estrategia del abogado), se inicia el Juicio por Rendición de Cuentas (Art. 652 CPCCN, Arts. 858 a 864 CCyC), exigiendo que el saliente presente de forma documentada todos los ingresos y egresos administrados durante su gestión, con comprobantes respaldatorios. 4) Mientras el proceso judicial avanza, seguí operando el consorcio con lo que sí lograste obtener (cuenta bancaria, matrícula, organismos) para no paralizar la administración. 5) Tené en cuenta los tiempos: la vía judicial es la más lenta de las cuatro etapas, por eso conviene haber agotado (o iniciado en paralelo) las vías administrativas más rápidas (Carta Documento, denuncia RPA) antes o al mismo tiempo. 6) Documentá todos los gastos del proceso judicial (tasa de justicia, honorarios) porque, de prosperar la rendición de cuentas, pueden reclamarse como parte de los daños ocasionados por la retención indebida."
   }
 ];
 
@@ -325,25 +355,28 @@ const AUDITORIA_MODULOS = [
   {
     id: "modulo1",
     titulo: "Módulo I — Seguridad técnica e instalaciones",
-    subtitulo: "Exigencias de AGC, MetroGAS, ENARGAS y AEA (inspección visual)",
+    subtitulo: "Exigencias de AGC, MetroGAS, ENARGAS y AEA. No todos los consorcios tienen todas las instalaciones: marcá \"No tiene\" en las opcionales para que no queden pendientes eternamente.",
     items: [
       {
         id: "ascensores",
         titulo: "Ascensores y montacargas (Ordenanza 51.598 / AGC)",
+        opcional: true,
+        preguntaTiene: "¿El edificio tiene ascensor o montacargas?",
         verificar: [
-          "Oblea con código QR vigente",
-          "Funciona la luz de emergencia y el timbre de alarma dentro de la cabina",
-          "Ausencia de ruidos anómalos o desniveles al parar en piso",
-          "Libro de Inspección con firma mensual de la empresa de mantenimiento",
-          "Cableado, freno de seguridad, paracaídas y limitador de velocidad en buen estado",
-          "Puertas: patines retráctiles, trabas y sensores de presencia operativos",
-          "Cartelería de carga máxima permitida visible"
+          "Sala de máquinas: orden, limpieza y libre de elementos ajenos al equipo",
+          "Cabina: estado general, botonera, iluminación, luz de emergencia y timbre de alarma funcionando",
+          "Oblea/código QR de la AGC vigente y visible (en cabina o sala de máquinas)",
+          "Prueba de funcionamiento: llamada desde piso, apertura/cierre de puertas y parada a nivel"
         ],
+        nota:
+          "Esto es lo único verificable en una visita de traspaso: no se puede inspeccionar el estado de los cables, el foso ni el interior de los mecanismos sin desarmar el equipo. El informe técnico completo (freno de seguridad, paracaídas, limitador de velocidad, cableado) se consulta en el sistema de la AGC una vez que tomás posesión y te vinculás como responsable del inmueble.",
         riesgo: "Clausura preventiva del equipo por la AGC, multas severas y responsabilidad penal subsidiaria del consorcio por accidentes a terceros."
       },
       {
         id: "gas",
         titulo: "Instalación de gas y calderas centrales (ENARGAS / MetroGAS)",
+        opcional: true,
+        preguntaTiene: "¿El edificio tiene calefacción/agua caliente central por caldera?",
         verificar: [
           "Nicho de medidores con rejillas de ventilación despejadas y sin candados restrictivos",
           "Cartelería de seguridad en sala de calderas",
@@ -353,16 +386,30 @@ const AUDITORIA_MODULOS = [
         riesgo: "Corte intempestivo del suministro de gas por denuncia/inspección de MetroGAS, con plazos de reconexión que pueden superar los 6 u 8 meses."
       },
       {
-        id: "incendio",
-        titulo: "Protección contra incendio e IFL (Ordenanza 52.288 / Ley 1.294)",
+        id: "sistema-fijo-incendio",
+        titulo: "Sistema fijo contra incendio (rociadores, bombas de incendio, hidrantes)",
+        opcional: true,
+        preguntaTiene: "¿El edificio tiene sistema fijo contra incendio (más allá de los matafuegos)?",
         verificar: [
           "Gabinetes de mangueras e hidrantes en buen estado, con prueba de hermeticidad/presión",
-          "Matafuegos con oblea digital AGC vigente y carga anual al día, manómetro en rango verde",
+          "Bomba de incendio: arranque automático y presión en rango normal",
           "Luces de emergencia operativas en rutas de evacuación/escaleras",
           "Puertas cortafuego con cierre automático funcionando y libres de obstáculos",
           "Señalética de vías de evacuación visible"
         ],
         riesgo: "Inoponibilidad del seguro en caso de siniestro (rechazo de cobertura) e imputación penal del consorcio."
+      },
+      {
+        id: "matafuegos",
+        titulo: "Matafuegos (obligatorio en todo consorcio)",
+        campos: [
+          { id: "cantidad", label: "Cantidad de matafuegos", type: "number" },
+          { id: "tamanos", label: "Tamaños (ej: 5kg ABC, 10kg CO2)", type: "text" },
+          { id: "vencimiento", label: "Próximo vencimiento de carga", type: "date" },
+          { id: "fechaMantenimiento", label: "Fecha del último mantenimiento", type: "date" },
+          { id: "estadoCarga", label: "Estado de carga (manómetro)", type: "select", options: ["En rango verde (cargado)", "Bajo / por vencer", "Vencido o descargado"] }
+        ],
+        riesgo: "Inoponibilidad del seguro en caso de siniestro e infracción directa ante una inspección de la AGC; es exigible en todos los edificios, sin excepción."
       },
       {
         id: "electrica",
@@ -372,7 +419,64 @@ const AUDITORIA_MODULOS = [
           "Medición anual del protocolo de Puesta a Tierra (PAT) con telurímetro",
           "Ausencia de cables expuestos o empalmes fuera de cajas de paso"
         ],
+        campos: [
+          { id: "estadoGeneral", label: "Estado general del tablero", type: "select", options: ["Bueno", "Regular — con detalles", "Malo — requiere intervención"] },
+          { id: "detallesObservados", label: "Detalle de lo observado (cables sueltos, llaves quemadas, falta de rotulado, etc.)", type: "textarea" },
+          { id: "fechaMedicionPAT", label: "Fecha de la última medición de Puesta a Tierra", type: "date" }
+        ],
         riesgo: "Riesgo de electrocución, incendios por cortocircuito y apercibimiento de la AGC."
+      },
+      {
+        id: "sala-maquinas",
+        titulo: "Sala de máquinas (general)",
+        verificar: [
+          "Iluminación adecuada y en funcionamiento",
+          "Ausencia de humedad, filtraciones o acumulación de agua",
+          "Piso en buen estado, sin obstáculos ni elementos ajenos",
+          "Medidores de gas y electricidad identificados, rotulados y accesibles"
+        ],
+        riesgo: "Una sala de máquinas en mal estado dificulta el mantenimiento de ascensores/calderas y puede ser observada en inspecciones de la AGC."
+      },
+      {
+        id: "cisterna-electrobombas",
+        titulo: "Cisterna y electrobombas de elevación de agua (sistema automático)",
+        opcional: true,
+        preguntaTiene: "¿El edificio tiene cisterna con electrobombas para elevar agua a los tanques?",
+        verificar: [
+          "Arranque y parada automática de las electrobombas (sistema de flotante/presostato)",
+          "Nivel de agua en la cisterna dentro de parámetros normales",
+          "Tapa de inspección sellada y en buen estado",
+          "Ausencia de filtraciones o humedad en el recinto de la cisterna"
+        ],
+        riesgo: "Una falla no detectada en el sistema automático deriva en falta de suministro de agua a todo el edificio."
+      },
+      {
+        id: "escaleras",
+        titulo: "Escaleras",
+        campos: [
+          { id: "iluminacion", label: "Estado de la iluminación", type: "select", options: ["Buena", "Parcial — hay artefactos sin funcionar", "Deficiente / sin luz"] },
+          { id: "antideslizante", label: "¿Tiene sistema antideslizante en los escalones?", type: "select", options: ["Sí", "No"] }
+        ],
+        riesgo: "Escaleras sin buena iluminación o sin antideslizante son causa frecuente de accidentes y reclamos de responsabilidad civil contra el consorcio."
+      },
+      {
+        id: "pasillos",
+        titulo: "Pasillos",
+        campos: [
+          { id: "iluminacion", label: "Estado de la iluminación", type: "select", options: ["Buena", "Parcial — hay artefactos sin funcionar", "Deficiente / sin luz"] },
+          { id: "estadoInterruptores", label: "Estado de los interruptores / sensores de movimiento", type: "select", options: ["Funcionan correctamente", "Alguno no funciona", "No funcionan / no hay"] }
+        ],
+        riesgo: "Pasillos mal iluminados son un factor de riesgo de accidentes y un reclamo habitual de los propietarios."
+      },
+      {
+        id: "cerradura-principal",
+        titulo: "Cerradura de la puerta principal",
+        campos: [
+          { id: "tipoLlave", label: "Tipo de llave", type: "select", options: ["Convencional", "Electrónica / tarjeta / app"] },
+          { id: "cantidadCopias", label: "Cantidad de copias entregadas por UF", type: "number" },
+          { id: "protocoloPerdida", label: "Protocolo si un propietario pierde una llave/copia", type: "textarea" }
+        ],
+        riesgo: "Sin un protocolo claro de copias y pérdidas, se pierde el control de quién tiene acceso al edificio, con implicancias de seguridad para todos los residentes."
       }
     ]
   },
@@ -419,22 +523,30 @@ const AUDITORIA_MODULOS = [
       {
         id: "libro-actas-aud",
         titulo: "Libro de Actas de Asamblea",
-        verificar: ["Transcripción de la asamblea de designación", "Estado de rubricación"]
+        verificar: ["Transcripción de la asamblea de designación", "Estado de rubricación"],
+        siNoLoTengo:
+          "Cómo reemplazarlo: la rúbrica de libros de consorcio en CABA la otorga el Registro Público de Administradores (GCBA) / en algunos casos se gestiona vía escribanía habilitada, según el circuito vigente al momento del trámite — consultá en el mismo portal donde tramitaste tu matrícula RPA. Pedí turno para rubricar un libro nuevo (\"reposición\" o \"habilitación\" de libro) llevando DNI, certificado de matrícula RPA y los datos del consorcio (CUIT, dirección). Cómo saber si el libro existente es válido o está mal confeccionado: revisá que la carátula tenga la rúbrica original (sello y firma del organismo, no una fotocopia), que las actas estén en orden cronológico sin saltos de fecha ni fojas arrancadas, que cada acta tenga las firmas exigidas (presidente y secretario de la asamblea más dos propietarios) y que no haya espacios en blanco entre actas (facilitan adulteraciones). Si encontrás fojas arrancadas, actas sin firmar, o el libro directamente no aparece, ese hallazgo se suma al reclamo formal al administrador saliente (además del reclamo por faltante), porque un libro mal llevado también compromete la validez de lo actuado en su gestión."
       },
       {
         id: "libro-administracion",
         titulo: "Libro de Administración / Registro de Propietarios",
-        verificar: ["Actualización de datos de contacto", "Porcentuales de expensas correctos"]
+        verificar: ["Actualización de datos de contacto", "Porcentuales de expensas correctos"],
+        siNoLoTengo:
+          "Cómo reemplazarlo: al igual que el resto de los libros obligatorios, se rubrica un ejemplar nuevo ante el organismo habilitante (mismo circuito que el Libro de Actas). Mientras se tramita, armá en paralelo una planilla propia con los datos de todos los propietarios (nombre, UF, porcentual, contacto) para no perder continuidad operativa. Cómo saber si está mal confeccionado: verificá que los porcentuales de cada unidad sumen 100% y coincidan con el Reglamento de Copropiedad, y que los datos de contacto no estén manifiestamente desactualizados (titulares fallecidos, unidades vendidas hace años sin actualizar). Un libro con porcentuales incorrectos puede haber generado expensas mal liquidadas durante años: es un hallazgo grave a documentar para el reclamo y para revisar con un contador."
       },
       {
         id: "libro-ordenes",
         titulo: "Libro de Órdenes del Personal",
-        verificar: ["Requisito obligatorio del CCT 589/10 para impartir instrucciones al encargado"]
+        verificar: ["Requisito obligatorio del CCT 589/10 para impartir instrucciones al encargado"],
+        siNoLoTengo:
+          "Cómo reemplazarlo: se rubrica un libro nuevo por el mismo circuito que los demás libros de consorcio. Es indispensable para poder dejar asentadas por escrito las instrucciones al encargado (art. correspondiente del CCT 589/10) y para documentar llamados de atención de forma válida ante un conflicto laboral. Cómo saber si está mal llevado: si las órdenes no tienen fecha, no están firmadas por el administrador, o hay borrones/tachaduras sin salvar, pierden valor probatorio en un eventual conflicto laboral — es un punto a señalar en el reclamo si el saliente lo llevaba así."
       },
       {
         id: "libro-sueldos",
         titulo: "Libro de Sueldos y Jornales (Ley 20.744 / ARCA)",
-        verificar: ["Habilitación del libro de sueldos digital / hojas móviles", "Actualizado al día"]
+        verificar: ["Habilitación del libro de sueldos digital / hojas móviles", "Actualizado al día"],
+        siNoLoTengo:
+          "Cómo reemplazarlo: este libro (o su equivalente de hojas móviles/sueldos digital) se habilita ante ARCA (ex AFIP), no ante el GCBA — es un trámite distinto al resto de los libros de consorcio. Sin este libro habilitado no podés pagar sueldos de forma regular ni respaldar los recibos ante una inspección del Ministerio de Trabajo. Cómo saber si está mal llevado: cotejá que los importes asentados coincidan con los recibos de sueldo efectivamente entregados al personal y con lo declarado en el F.931 de ARCA — una diferencia entre estos tres documentos es indicio de pagos \"en negro\" parcial o de aportes mal liquidados, un hallazgo serio para el reclamo y con implicancias legales para el consorcio como empleador."
       },
       {
         id: "libros-tecnicos",
@@ -443,7 +555,9 @@ const AUDITORIA_MODULOS = [
           "Libro de Inspección de Ascensores (registro virtual en la web de la AGC)",
           "Libro de Mantenimiento de Instalaciones Fijas contra Incendio (registro virtual AGC)",
           "Registro de limpieza y desinfección de tanques de agua"
-        ]
+        ],
+        siNoLoTengo:
+          "Estos ya no son libros físicos en la mayoría de los casos: son registros virtuales dentro del portal de instalaciones de la AGC (instalaciones.agcontrol.gob.ar), cargados por los técnicos matriculados en cada intervención. Si no encontrás historial, verificá directamente en el portal una vez que estés vinculado como administrador del inmueble — ahí vas a ver todo el historial de cargas de la empresa de mantenimiento. Cómo saber si está \"mal confeccionado\": si el sistema muestra que hace muchos meses no se carga una inspección o mantenimiento pese a que la empresa de mantenimiento factura el servicio regularmente, es un fuerte indicio de que el mantenimiento no se estaba haciendo realmente o no se registraba — reclamalo al saliente y, de corresponder, revisá el contrato con la empresa de mantenimiento."
       }
     ]
   },
@@ -455,22 +569,30 @@ const AUDITORIA_MODULOS = [
       {
         id: "situacion-bancaria",
         titulo: "Situación bancaria",
-        verificar: ["Expensas recaudadas en cuenta bancaria a nombre del consorcio (prohibido usar cuentas personales del administrador)"]
+        verificar: ["Expensas recaudadas en cuenta bancaria a nombre del consorcio (prohibido usar cuentas personales del administrador)"],
+        queMirar:
+          "Qué pedirle al administrador saliente y qué mirar: 1) Extractos bancarios de la cuenta del consorcio de, como mínimo, los últimos 12 meses (idealmente desde la última asamblea que aprobó rendición de cuentas) — pedilos en PDF del banco, no un resumen armado por el propio saliente. 2) Conciliaciones bancarias mes a mes: el saldo del extracto del banco debe coincidir con lo registrado en la contabilidad del consorcio (libro de caja/banco); si no concilia, hay que averiguar por qué. 3) Comprobantes de todos los egresos relevantes (transferencias, pagos a proveedores, sueldos) con su respectivo respaldo documental (factura, recibo). 4) Verificar que no haya extracciones en efectivo sin justificar, transferencias a cuentas de terceros no identificados, o pagos a la cuenta personal del propio administrador saliente. 5) Estado de plazos fijos o inversiones del fondo de reserva, si el consorcio tuviera. 6) Saldo actual de la cuenta al día del traspaso, cotejado con el extracto bancario real (no con lo que declare el saliente de palabra). 7) Verificar que la totalidad de los medios de pago (chequeras, tarjetas, accesos de homebanking) queden efectivamente en tu poder o dados de baja — ver el paso 'Banco' de Toma de posesión."
       },
       {
         id: "situacion-fiscal",
         titulo: "Obligaciones previsionales y fiscales (ARCA)",
-        verificar: ["CUIT del consorcio activo", "Cargas sociales F.931 del personal al día"]
+        verificar: ["CUIT del consorcio activo", "Cargas sociales F.931 del personal al día"],
+        queMirar:
+          "Qué pedir y qué mirar: constancia de CUIT y estado del domicilio fiscal; las últimas declaraciones juradas F.931 presentadas (verificar que estén presentadas en fecha, sin atrasos); los comprobantes de pago (VEP) de cada F.931, no solo la declaración — puede estar presentada pero impaga; el estado de cuenta corriente del CUIT en ARCA (para detectar deudas, intereses o planes de pago en curso); y si el consorcio realiza alguna actividad que tribute Ingresos Brutos, el estado de esa inscripción ante AGIP. Una declaración jurada presentada pero no pagada genera intereses y puede derivar en responsabilidad del consorcio como empleador — es un hallazgo para documentar."
       },
       {
         id: "situacion-laboral",
         titulo: "Régimen laboral (CCT 589/10 / FATERyH / SUTERH)",
-        verificar: ["Vestimenta y EPP vigentes entregados al personal", "Valor de vivienda (si aplica) declarado en el recibo de sueldo"]
+        verificar: ["Vestimenta y EPP vigentes entregados al personal", "Valor de vivienda (si aplica) declarado en el recibo de sueldo"],
+        queMirar:
+          "Qué pedir y qué mirar: los legajos completos del personal (contrato, alta temprana ante ARCA, recibos de sueldo firmados de los últimos 12 meses); comprobantes de entrega de ropa de trabajo y elementos de protección personal (EPP) firmados por el trabajador (exigencia del CCT 589/10); constancia de exámenes médicos preocupacionales y periódicos vigentes; el estado de aportes sindicales y a OSPERYH; y si el encargado tiene vivienda en el edificio, que el valor locativo esté correctamente declarado en el recibo (para evitar contingencias fiscales y de aportes). Cotejá la categoría convencional declarada contra las tareas que realmente cumple el trabajador — una categorización incorrecta es una fuente frecuente de reclamos laborales futuros."
       },
       {
         id: "seguros",
         titulo: "Pólizas de seguro",
-        verificar: ["Póliza Integral de Consorcio (incendio + responsabilidad civil) vigente y pagada al día"]
+        verificar: ["Póliza Integral de Consorcio (incendio + responsabilidad civil) vigente y pagada al día"],
+        queMirar:
+          "Qué pedir y qué mirar: copia completa de la póliza vigente (no solo el certificado resumen) para revisar sumas aseguradas, exclusiones y franquicias; comprobante de pago de la prima al día (una póliza puede figurar 'vigente' pero estar en proceso de anulación por falta de pago); certificado de cobertura de ART del personal (ya cubierto en el paso 'ART' de Toma de posesión, pero conviene volver a cotejarlo acá); y si el edificio tiene ascensores o instalaciones especiales, que la póliza no tenga cláusulas de exclusión por falta de mantenimiento o de obleas vigentes, porque eso puede dejar sin cobertura real un siniestro aunque la póliza esté \"pagada\"."
       }
     ]
   }
@@ -526,8 +648,10 @@ const EMPLEADOS_EJES = [
 // Placeholders disponibles: {{consorcioNombre}}, {{consorcioDireccion}}, {{consorcioCUIT}},
 // {{administradorNombre}}, {{administradorCUIT}}, {{matriculaRPA}}, {{administradorDomicilio}},
 // {{administradorEmail}}, {{administradorTelefono}}, {{bancoNombre}}, {{bancoCuenta}},
-// {{bancoCBU}}, {{bancoAlias}}, {{fechaAsamblea}}, {{fechaHoy}}, {{diaVencimiento}},
-// {{salienteNombre}}, {{salienteDomicilio}}, {{horarioAtencion}}
+// {{bancoCBU}}, {{bancoAlias}}, {{cuentasBancariasTexto}} (lista de todas las cuentas,
+// para plantillas que admiten más de una), {{fechaAsamblea}}, {{fechaHoy}},
+// {{salienteNombre}}, {{salienteMatricula}}, {{salienteDomicilio}}, {{salienteEmail}},
+// {{salienteTelefono}}, {{horarioAtencion}}
 
 const PLANTILLAS = {
   arca: {
@@ -662,20 +786,14 @@ A fin de garantizar una transición ordenada, transparente y ajustada a la legis
 - Correo Electrónico Oficial: {{administradorEmail}}
 - Horario de Atención: {{horarioAtencion}}
 
-2. Datos de la Cuenta Bancaria Oficial para Pago de Expensas
+2. Datos de la(s) Cuenta(s) Bancaria(s) Oficial(es) para Pago de Expensas
 
-De acuerdo con lo establecido por el Art. 9° inc. f) de la Ley N.º 941 de la CABA, se recuerda que los fondos del consorcio deben canalizarse de manera exclusiva a través de la cuenta bancaria titularidad del ente:
+De acuerdo con lo establecido por el Art. 9° inc. f) de la Ley N.º 941 de la CABA, se recuerda que los fondos del consorcio deben canalizarse de manera exclusiva a través de cuenta(s) bancaria(s) titularidad del ente ({{consorcioNombre}}, CUIT N.º {{consorcioCUIT}}):
 
-- Banco: {{bancoNombre}}
-- Tipo y N.º de Cuenta: {{bancoCuenta}}
-- Titular: {{consorcioNombre}}
-- CUIT del Consorcio: {{consorcioCUIT}}
-- CBU N.º: {{bancoCBU}}
-- Alias CBU: {{bancoAlias}}
+{{cuentasBancariasTexto}}
 
 3. Modalidad de Pago y Envío de Comprobantes
 
-- Plazo de Vencimiento: las expensas vencerán el día {{diaVencimiento}} de cada mes.
 - Aviso de Pago: una vez realizada la transferencia o depósito bancario, es requisito indispensable remitir el comprobante correspondiente vía correo electrónico a {{administradorEmail}}, indicando Piso, Departamento y Unidad Funcional (UF).
 - Importante: queda terminantemente prohibido el cobro de expensas en efectivo o mediante depósitos en cuentas de terceros o de la administración a título personal.
 
