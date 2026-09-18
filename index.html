@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toma de Posesión de Consorcios — CABA</title>
+<meta name="description" content="Herramienta para administradores de consorcios de CABA: checklist de toma de posesión, auditoría técnica, legajos de empleados y generador de documentos.">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="app-header-inner">
+      <div class="app-title">
+        <h1>Toma de Posesión de Consorcios</h1>
+        <span class="app-subtitle">CABA · Ley 941 · CCyC · CCT 589/10</span>
+      </div>
+      <div class="consorcio-selector">
+        <select id="selectorConsorcio" aria-label="Consorcio activo"></select>
+        <button id="btnNuevoConsorcio" class="btn-secondary">+ Nuevo consorcio</button>
+      </div>
+    </div>
+    <nav class="app-nav">
+      <button class="nav-btn active" data-tab="tab-inicio">Inicio</button>
+      <button class="nav-btn" data-tab="tab-toma">Toma de posesión</button>
+      <button class="nav-btn" data-tab="tab-reclamo">Reclamo al saliente</button>
+      <button class="nav-btn" data-tab="tab-auditoria">Auditoría técnica</button>
+      <button class="nav-btn" data-tab="tab-empleados">Legajos de empleados</button>
+      <button class="nav-btn" data-tab="tab-generador">Generador de documentos</button>
+    </nav>
+  </header>
+
+  <main class="app-main">
+    <div id="tab-inicio" class="tab-panel active"></div>
+    <div id="tab-toma" class="tab-panel"></div>
+    <div id="tab-reclamo" class="tab-panel"></div>
+    <div id="tab-auditoria" class="tab-panel"></div>
+    <div id="tab-empleados" class="tab-panel"></div>
+    <div id="tab-generador" class="tab-panel"></div>
+  </main>
+
+  <footer class="app-footer">
+    <p>Información de referencia legal y administrativa (CCyC, Ley 941 CABA, CCT 589/10, AGC, ARCA, AGIP). No reemplaza el asesoramiento de un abogado o contador para casos concretos. Los datos se guardan únicamente en este navegador.</p>
+  </footer>
+
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="js/data.js"></script>
+  <script src="js/drive-sync.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
