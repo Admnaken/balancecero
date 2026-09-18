@@ -812,4 +812,7 @@ function init() {
   renderAll();
 }
 
-document.addEventListener("DOMContentLoaded", init);
+// El arranque real de la app lo dispara auth-gate.js una vez que se
+// desbloquea la pantalla de acceso (o de entrada, si ya estaba desbloqueada
+// en este dispositivo). Se expone init() para que auth-gate.js la invoque.
+window.AppInit = init;

@@ -1,4 +1,4 @@
-# Toma de Posesión de Consorcios (CABA)
+# Balance Cero — Toma de Posesión de Consorcios (CABA)
 
 Aplicación web estática (HTML/CSS/JS puro, sin backend ni dependencias) para acompañar el proceso de toma de posesión de un consorcio en la Ciudad Autónoma de Buenos Aires: checklist de trámites (banco, ARCA, AGIP, AGC, ART, SUTERH/FATERyH), reclamo al administrador saliente, auditoría técnica inicial, checklist de legajos de empleados y generador de notas/cartas documento.
 
@@ -51,14 +51,39 @@ Una vez conectado podés tildar **"Guardar automáticamente en Drive después de
 
 > **Importante:** este flujo de conexión requiere que la página se abra por `http://` o `https://` (GitHub Pages o un servidor local). No funciona si abrís el `index.html` directamente como archivo (`file://`).
 
+## Pantalla de acceso (clave)
+
+La app pide una clave antes de mostrar cualquier contenido (`js/auth-gate.js`). Es un filtro del lado del navegador: compara el hash SHA-256 de lo que se tipea contra un hash guardado en el código, así que la clave en texto plano no viaja ni queda visible. **No es una bóveda** — como el sitio es estático y (si el repo de GitHub es público) el código fuente se puede inspeccionar, alguien con conocimientos técnicos podría llegar a la clave. Sirve para que nadie entre por tener la URL a mano. Para una protección real (autenticación que ocurre antes de que el navegador reciba una sola línea del sitio), sumar **Cloudflare Access** por delante del dominio — es un paso aparte, avisame cuando lo quieras armar.
+
+**Para cambiar la clave:**
+1. Abrí la app en el navegador, apretá F12 (consola de desarrollador) y pegá:
+   ```js
+   crypto.subtle.digest("SHA-256", new TextEncoder().encode("tu-clave-nueva"))
+     .then(buf => console.log(Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("")));
+   ```
+   (cambiando `tu-clave-nueva` por la clave que quieras: letras, números y símbolos, mínimo 7 caracteres).
+2. Copiá el resultado (un texto largo de letras y números).
+3. En `js/auth-gate.js`, reemplazá el valor de `PASSWORD_HASH_HEX` por ese resultado.
+4. Volvé a subir el archivo a GitHub.
+
+Tildando **"Recordarme en este dispositivo"** al ingresar, no te vuelve a pedir la clave en ese navegador (usa `localStorage`); si lo destildás, la pide de nuevo cada vez que cerrás la pestaña (usa `sessionStorage`). El botón 🔒 del header bloquea la app manualmente en cualquier momento.
+
+## Logo y colores de marca
+
+- Colocá tu logo en `assets/logo.png` (se usa en el header y en la pantalla de acceso; si el archivo no existe, se muestra un ícono "BC" de reemplazo).
+- Colocá un ícono cuadrado (idealmente 512×512 o 256×256 px) en `assets/favicon.png` para que aparezca en la pestaña del navegador.
+- La paleta de colores (azul profundo, azul acero, dorado) está centralizada en `css/styles.css`, dentro de `:root`, así que para ajustarla alcanza con cambiar esos valores en un solo lugar.
+
 ## Estructura
 
 ```
-index.html        → estructura de la app y navegación por pestañas
-css/styles.css     → estilos
+index.html        → estructura de la app, pantalla de acceso y navegación por pestañas
+css/styles.css     → estilos y paleta de colores de marca
 js/data.js         → contenido: checklist de trámites, auditoría técnica, legajos, plantillas de documentos
 js/drive-sync.js   → conexión y respaldo con Google Drive (OAuth vía Google Identity Services)
+js/auth-gate.js    → pantalla de acceso con clave (hash SHA-256, sin backend)
 js/app.js          → lógica: manejo de consorcios, checklist, generador de documentos, calculadora de plazos
+assets/            → logo.png y favicon.png (los agregás vos)
 ```
 
 ## Actualizar contenido normativo
