@@ -519,6 +519,7 @@ const AUDITORIA_MODULOS = [
     id: "modulo3",
     titulo: "Módulo III — Matriz de libros y documentación legal",
     subtitulo: "Para auditar al momento del traspaso — Arts. 2065/2067 CCyC y Ley 941",
+    estadoTipo: "entrega",
     items: [
       {
         id: "libro-actas-aud",
@@ -565,6 +566,7 @@ const AUDITORIA_MODULOS = [
     id: "modulo4",
     titulo: "Módulo IV — Estado situacional contable, fiscal y laboral",
     subtitulo: "Cuestionario para el copropietario/consejo durante la reunión de traspaso",
+    estadoTipo: "entrega",
     items: [
       {
         id: "situacion-bancaria",
@@ -845,5 +847,34 @@ Administrador del Consorcio
 CUIT: {{administradorCUIT}}
 
 Nota: enviar por Correo Argentino u otro prestador postal oficial como Carta Documento con aviso de recibo.`
+  },
+  "asamblea-informativa": {
+    titulo: "Convocatoria y Orden del Día — Asamblea Informativa de Inicio de Gestión",
+    cuerpo: `CONVOCATORIA A ASAMBLEA INFORMATIVA DE INICIO DE GESTIÓN
+
+{{consorcioNombre}}
+CUIT N.º: {{consorcioCUIT}}
+
+Ciudad Autónoma de Buenos Aires, {{fechaHoy}}
+
+Se convoca a los Sres. Propietarios del {{consorcioNombre}} a la Asamblea Informativa de Inicio de Gestión, a celebrarse el día [fecha], a las [hora] horas, en [lugar / modalidad presencial-virtual].
+
+El objeto de esta asamblea es meramente informativo: poner en conocimiento de los propietarios el estado real en que la nueva administración recibió el edificio, conforme al Acta de Recepción de Documentación y Libros con Reserva de Auditoría suscripta con la administración saliente, eximiendo expresamente a la nueva gestión de responsabilidad por hechos, omisiones o irregularidades anteriores a la toma de posesión.
+
+ORDEN DEL DÍA:
+
+1. Designación de dos propietarios para firmar el acta junto al presidente y secretario de la asamblea.
+2. Informe de la nueva administración sobre el proceso de toma de posesión (trámites ante banco, ARCA, AGIP, AGC, ART, SUTERH/FATERyH).
+3. Presentación del estado real de recepción del edificio: libros obligatorios (completos/incompletos/faltantes), documentación contable y bancaria, situación fiscal y laboral, y estado técnico de las instalaciones (ascensores, incendio, eléctrica, gas), conforme al Informe de Auditoría Técnica adjunto.
+4. Puesta en conocimiento del Acta de Recepción Bajo Reserva de Auditoría firmada con la administración saliente, y de la documentación pendiente de entrega (si la hubiera).
+5. Informe sobre las gestiones de reclamo iniciadas o a iniciar contra la administración saliente por documentación faltante o irregularidades detectadas (si correspondiera).
+6. Ratificación de los datos de la cuenta bancaria oficial del consorcio para el pago de expensas.
+7. Preguntas y consideraciones de los propietarios presentes.
+
+Se deja expresa constancia de que la presente asamblea reviste carácter meramente informativo respecto del punto 3, sin perjuicio de que los propietarios presentes puedan proponer, dentro del mismo acto, el tratamiento de mociones puntuales conforme al Reglamento de Copropiedad.
+
+{{administradorNombre}}
+Administrador del Consorcio
+Matrícula RPA N.º {{matriculaRPA}}`
   }
 };

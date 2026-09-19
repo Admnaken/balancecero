@@ -103,6 +103,10 @@ function migrarConsorcio(c) {
   if (c.saliente.matricula === undefined) c.saliente.matricula = "";
   if (c.saliente.email === undefined) c.saliente.email = "";
   if (c.saliente.telefono === undefined) c.saliente.telefono = "";
+  if (c.saliente.dni === undefined) c.saliente.dni = "";
+
+  if (c.administrador.dni === undefined) c.administrador.dni = "";
+  if (c.fechaTomaPosesion === undefined) c.fechaTomaPosesion = "";
 
   return c;
 }
@@ -132,6 +136,7 @@ function nuevoConsorcio(datos) {
     tieneCocheras: datos.tieneCocheras || "no",
     administrador: {
       nombre: datos.administradorNombre || "",
+      dni: datos.administradorDNI || "",
       cuit: datos.administradorCUIT || "",
       matriculaRPA: datos.matriculaRPA || "",
       domicilio: datos.administradorDomicilio || "",
@@ -140,8 +145,9 @@ function nuevoConsorcio(datos) {
     },
     bancos: [{ etiqueta: "Cuenta titular", nombre: "", cuenta: "", cbu: "", alias: "" }],
     fechaAsamblea: "",
+    fechaTomaPosesion: "",
     horarioAtencion: "10:00 a 16:00 hs",
-    saliente: { nombre: "", matricula: "", domicilio: "", email: "", telefono: "", fechaNotificacion: "" },
+    saliente: { nombre: "", dni: "", matricula: "", domicilio: "", email: "", telefono: "", fechaNotificacion: "" },
     checklist: {},
     auditoria: {},
     empleados: {},
@@ -331,6 +337,9 @@ function renderInicio() {
         <label>Fecha de la asamblea de designación
           <input type="date" name="fechaAsamblea" value="${c ? c.fechaAsamblea : ""}">
         </label>
+        <label>Fecha de toma de posesión (recepción efectiva)
+          <input type="date" name="fechaTomaPosesion" value="${c ? c.fechaTomaPosesion : ""}">
+        </label>
         <label>Cantidad de UF (unidades funcionales)
           <input type="number" min="0" name="cantidadUF" value="${c ? escapeHtml(c.cantidadUF) : ""}">
         </label>
@@ -366,6 +375,9 @@ function renderInicio() {
         <label>CUIT / CUIL
           <input type="text" name="administradorCUIT" value="${c ? escapeHtml(c.administrador.cuit) : ""}">
         </label>
+        <label>DNI
+          <input type="text" name="administradorDNI" value="${c ? escapeHtml(c.administrador.dni) : ""}">
+        </label>
         <label>Matrícula RPA (Ley 941)
           <input type="text" name="matriculaRPA" placeholder="N.º de matrícula" value="${c ? escapeHtml(c.administrador.matriculaRPA) : ""}">
         </label>
@@ -392,6 +404,9 @@ function renderInicio() {
         <h3 class="form-subtitle">Administrador/a saliente (para el reclamo, si corresponde)</h3>
         <label>Nombre y apellido
           <input type="text" name="salienteNombre" value="${c ? escapeHtml(c.saliente.nombre) : ""}">
+        </label>
+        <label>DNI
+          <input type="text" name="salienteDNI" value="${c ? escapeHtml(c.saliente.dni) : ""}">
         </label>
         <label>Matrícula RPA
           <input type="text" name="salienteMatricula" value="${c ? escapeHtml(c.saliente.matricula) : ""}">
@@ -456,6 +471,7 @@ function onSubmitConsorcio(e) {
   c.direccion = datos.direccion;
   c.cuit = datos.cuit;
   c.fechaAsamblea = datos.fechaAsamblea;
+  c.fechaTomaPosesion = datos.fechaTomaPosesion;
   c.horarioAtencion = datos.horarioAtencion;
   c.cantidadUF = datos.cantidadUF;
   c.cantidadPisos = datos.cantidadPisos;
@@ -465,6 +481,7 @@ function onSubmitConsorcio(e) {
   c.tieneCocheras = datos.tieneCocheras;
   c.administrador = {
     nombre: datos.administradorNombre,
+    dni: datos.administradorDNI,
     cuit: datos.administradorCUIT,
     matriculaRPA: datos.matriculaRPA,
     domicilio: datos.administradorDomicilio,
@@ -479,6 +496,7 @@ function onSubmitConsorcio(e) {
   }
   c.saliente = {
     nombre: datos.salienteNombre,
+    dni: datos.salienteDNI,
     matricula: datos.salienteMatricula,
     domicilio: datos.salienteDomicilio,
     email: datos.salienteEmail,
@@ -696,6 +714,27 @@ const ESTADOS_AUDITORIA = [
   { value: "ok", label: "Verificado — sin observaciones" }
 ];
 
+// Módulos III y IV (libros y documentación) registran "entrega", no
+// "verificación técnica": un libro o un comprobante se entrega o no se
+// entrega, no se "revisa" de la misma forma que un ascensor.
+const ESTADOS_ENTREGA = [
+  { value: "pendiente", label: "Pendiente" },
+  { value: "entregado-conforme", label: "Entregado conforme" },
+  { value: "entregado-incompleto", label: "Entregado incompleto" },
+  { value: "no-entregado", label: "No entregado" },
+  { value: "irregular", label: "Irregular" }
+];
+
+function estadosDeModulo(mod) {
+  return mod && mod.estadoTipo === "entrega" ? ESTADOS_ENTREGA : ESTADOS_AUDITORIA;
+}
+
+function estadoObservado(estado) {
+  // Estados que ameritan quedar listados como "observación / pendiente" en
+  // el Acta de Recepción y disparar los recordatorios legales.
+  return ["pendiente", "entregado-incompleto", "no-entregado", "irregular"].includes(estado);
+}
+
 function auditoriaProgreso(c) {
   const ids = auditoriaIds();
   let hechos = 0;
@@ -704,7 +743,7 @@ function auditoriaProgreso(c) {
     const item = auditoriaItemPorId(id);
     if (item && item.opcional && registro && registro.tiene === "no") {
       hechos++; // no aplica: no puede quedar "pendiente" para siempre
-    } else if (registro && (registro.estado === "ok" || registro.estado === "con-observaciones")) {
+    } else if (registro && registro.estado && registro.estado !== "pendiente") {
       hechos++;
     }
   });
@@ -719,6 +758,10 @@ function auditoriaItemPorId(id) {
   return null;
 }
 
+function auditoriaModuloDeItem(id) {
+  return AUDITORIA_MODULOS.find((mod) => mod.items.some((i) => i.id === id)) || null;
+}
+
 function renderAuditoria(c) {
   const el = document.getElementById("tab-auditoria");
   if (!c) {
@@ -729,6 +772,7 @@ function renderAuditoria(c) {
   const prog = auditoriaProgreso(c);
 
   const modulosHtml = AUDITORIA_MODULOS.map((mod) => {
+    const estadosModulo = estadosDeModulo(mod);
     const itemsHtml = mod.items.map((item) => {
       const registro = c.auditoria[item.id] || {};
       const estadoActual = registro.estado || "pendiente";
@@ -780,10 +824,10 @@ function renderAuditoria(c) {
           ${item.queMirar ? `<details class="proceder-details"><summary>📋 Qué mirar / qué pedir</summary><p>${escapeHtml(item.queMirar)}</p></details>` : ""}
           <label class="estado-label">Estado
             <select class="estado-select" data-id="${item.id}">
-              ${ESTADOS_AUDITORIA.map((es) => `<option value="${es.value}" ${estadoActual === es.value ? "selected" : ""}>${es.label}</option>`).join("")}
+              ${estadosModulo.map((es) => `<option value="${es.value}" ${estadoActual === es.value ? "selected" : ""}>${es.label}</option>`).join("")}
             </select>
           </label>
-          <label class="notas-label">Notas de relevamiento
+          <label class="notas-label">Notas de relevamiento${mod.estadoTipo === "entrega" ? " / detalle de lo faltante o incompleto" : ""}
             <textarea class="notas-textarea" data-id="${item.id}" rows="2" placeholder="Observaciones, fecha de inspección...">${escapeHtml(notas)}</textarea>
           </label>`;
 
@@ -791,7 +835,7 @@ function renderAuditoria(c) {
       <details class="checklist-item estado-${noAplica ? "no-aplica" : estadoActual}" data-id="${item.id}">
         <summary>
           <span class="item-titulo">${escapeHtml(item.titulo)}</span>
-          <span class="badge-estado">${noAplica ? "No aplica" : ESTADOS_AUDITORIA.find((e) => e.value === estadoActual).label}</span>
+          <span class="badge-estado">${noAplica ? "No aplica" : estadosModulo.find((e) => e.value === estadoActual).label}</span>
         </summary>
         <div class="item-body">
           ${tieneToggleHtml}
@@ -816,11 +860,72 @@ function renderAuditoria(c) {
         <span>${prog.hechos} / ${prog.total} resueltos (${prog.pct}%)</span>
       </div>
       <p class="muted small">Página oficial de AGC para ascensores, instalaciones térmicas, IFL y fachadas: <a href="https://instalaciones.agcontrol.gob.ar/" target="_blank" rel="noopener">instalaciones.agcontrol.gob.ar</a></p>
+      <div class="form-actions" style="margin-top:10px;">
+        <button class="btn-primary" id="btnGenerarActa">📄 Generar Acta de Recepción (para imprimir / PDF)</button>
+      </div>
     </section>
+    ${checkpointsLegalesHtml(c)}
     ${modulosHtml}
   `;
 
   bindAuditoriaEvents(el, c);
+
+  const btnActa = document.getElementById("btnGenerarActa");
+  if (btnActa) btnActa.addEventListener("click", () => abrirActaRecepcion(c));
+}
+
+// ---------------------------------------------------------------------------
+// Checkpoints legales (recordatorios automáticos) — Módulo de notificaciones
+// ---------------------------------------------------------------------------
+function checkpointsLegalesHtml(c) {
+  const ids = auditoriaIds();
+  const modulo3y4Ids = ["modulo3", "modulo4"].flatMap(
+    (mid) => (AUDITORIA_MODULOS.find((m) => m.id === mid) || { items: [] }).items.map((i) => i.id)
+  );
+  const pendientesONoEntregados = modulo3y4Ids.filter((id) => {
+    const registro = c.auditoria[id];
+    const estado = (registro && registro.estado) || "pendiente";
+    return estado === "pendiente" || estado === "no-entregado";
+  });
+
+  let alerta1 = "";
+  if (c.fechaTomaPosesion && pendientesONoEntregados.length) {
+    const inicio = new Date(c.fechaTomaPosesion + "T00:00:00");
+    const vencimiento = sumarDiasHabiles(inicio, 10);
+    const hoy = new Date();
+    if (hoy >= vencimiento) {
+      alerta1 = `<div class="alert-box danger">
+        <strong>⚠ Plazo de 10 días hábiles vencido</strong> — quedan ${pendientesONoEntregados.length} ítem(s) de libros/documentación en estado "Pendiente" o "No entregado" desde la toma de posesión (${inicio.toLocaleDateString("es-AR")}). Corresponde enviar Carta Documento de intimación al administrador saliente.
+        <div class="form-actions"><button class="btn-secondary" data-ir-generador="carta-documento">Generar Carta Documento →</button></div>
+      </div>`;
+    }
+  }
+
+  let alerta2 = "";
+  if (c.fechaTomaPosesion) {
+    const inicio = new Date(c.fechaTomaPosesion + "T00:00:00");
+    const vencAsamblea = new Date(inicio);
+    vencAsamblea.setDate(vencAsamblea.getDate() + 30);
+    alerta2 = `<div class="alert-box">
+      <strong>📅 Recordatorio: Asamblea Informativa de Inicio</strong> — programala dentro de los 30 días de la toma de posesión (venc. orientativo: ${vencAsamblea.toLocaleDateString("es-AR")}) para presentar a los propietarios el estado real en que se recibió el edificio, eximiendo a la nueva gestión de responsabilidad por hechos anteriores.
+      <div class="form-actions"><button class="btn-secondary" data-ir-generador="asamblea-informativa">Generar convocatoria y orden del día →</button></div>
+    </div>`;
+  } else {
+    alerta2 = `<div class="alert-box muted">Cargá la "Fecha de toma de posesión" en la pestaña Inicio para activar el recordatorio de la Asamblea Informativa de Inicio.</div>`;
+  }
+
+  const alerta3 = `<div class="alert-box warning">
+    <strong>⚖ Impugnación de la Asamblea de Designación por la administración saliente</strong> — si la administración anterior desconoce el acto asambleario, se requiere representación letrada (abogado matriculado en el CPACF) en la Mediación Prejudicial Obligatoria (Ley N.º 26.589) o en la contestación de acciones de nulidad de asamblea (Art. 2060 CCyCN).
+  </div>`;
+
+  return `<section class="card">
+    <h3>Notificaciones y checkpoints legales</h3>
+    <div class="checkpoints-list">
+      ${alerta1}
+      ${alerta2}
+      ${alerta3}
+    </div>
+  </section>`;
 }
 
 function bindAuditoriaEvents(el, c) {
@@ -874,6 +979,164 @@ function bindAuditoriaEvents(el, c) {
       saveState();
     });
   });
+
+  el.querySelectorAll("[data-ir-generador]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      cambiarTab("tab-generador");
+      document.getElementById("selectorPlantilla").value = btn.dataset.irGenerador;
+      renderPlantillaSeleccionada(c);
+    });
+  });
+}
+
+// ---------------------------------------------------------------------------
+// ACTA DE RECEPCIÓN DE DOCUMENTACIÓN Y LIBROS — BAJO RESERVA DE AUDITORÍA
+// ---------------------------------------------------------------------------
+function fechaEnPalabras(fecha) {
+  const dia = fecha.getDate();
+  const mes = fecha.toLocaleDateString("es-AR", { month: "long" });
+  const anio = fecha.getFullYear();
+  return `${dia} días del mes de ${mes} de ${anio}`;
+}
+
+function itemsEntregaHtml(mod, c) {
+  if (!mod) return "";
+  return mod.items
+    .map((item) => {
+      const registro = c.auditoria[item.id] || {};
+      const estado = registro.estado || "pendiente";
+      const label = ESTADOS_ENTREGA.find((e) => e.value === estado).label;
+      return `<li><strong>${escapeHtml(item.titulo)}:</strong> ${escapeHtml(label)}</li>`;
+    })
+    .join("");
+}
+
+function itemsTecnicosHtml(c) {
+  const modulosTecnicos = AUDITORIA_MODULOS.filter((m) => m.id === "modulo1" || m.id === "modulo2");
+  const lis = [];
+  modulosTecnicos.forEach((mod) => {
+    mod.items.forEach((item) => {
+      const registro = c.auditoria[item.id] || {};
+      if (item.opcional && registro.tiene === "no") return; // no aplica: no listar
+      const estado = registro.estado || "pendiente";
+      const label = ESTADOS_AUDITORIA.find((e) => e.value === estado).label;
+      lis.push(`<li><strong>${escapeHtml(item.titulo)}:</strong> ${escapeHtml(label)}</li>`);
+    });
+  });
+  return lis.join("");
+}
+
+function observacionesActaHtml(c) {
+  const modulosDoc = AUDITORIA_MODULOS.filter((m) => m.id === "modulo3" || m.id === "modulo4");
+  const items = [];
+  modulosDoc.forEach((mod) => {
+    mod.items.forEach((item) => {
+      const registro = c.auditoria[item.id] || {};
+      const estado = registro.estado || "pendiente";
+      if (estadoObservado(estado)) {
+        const label = ESTADOS_ENTREGA.find((e) => e.value === estado).label;
+        const nota = registro.notas ? escapeHtml(registro.notas) : "Sin detalle adicional cargado.";
+        items.push(`<li><em>${escapeHtml(item.titulo)} — ${escapeHtml(label)}:</em> ${nota}</li>`);
+      }
+    });
+  });
+  if (!items.length) {
+    return "<p>No se registran observaciones: todos los ítems de libros y documentación relevados en la auditoría figuran como entregados conformes al momento de la firma de la presente.</p>";
+  }
+  return `<ul>${items.join("")}</ul>`;
+}
+
+function abrirActaRecepcion(c) {
+  const hoy = new Date();
+  const bancos = Array.isArray(c.bancos) && c.bancos.length ? c.bancos : [];
+  const bancoPrincipal = bancos[0] || {};
+
+  const html = `<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<title>Acta de Recepción — ${escapeHtml(c.nombre)}</title>
+<style>
+  body { font-family: "Times New Roman", Times, serif; font-size: 12pt; color: #111; max-width: 800px; margin: 40px auto; padding: 0 20px; line-height: 1.5; }
+  h1 { font-size: 14pt; text-align: center; margin-bottom: 24px; }
+  p, li { text-align: justify; }
+  h2 { font-size: 12pt; margin-top: 20px; }
+  ul { margin: 6px 0 6px 20px; padding: 0; }
+  .toolbar { max-width: 800px; margin: 0 auto 20px; text-align: right; }
+  .toolbar button { font-family: Arial, sans-serif; font-size: 14px; padding: 8px 16px; background: #0b2a4a; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+  .firmas { display: flex; justify-content: space-between; margin-top: 60px; gap: 40px; }
+  .firma-box { flex: 1; text-align: center; font-family: Arial, sans-serif; font-size: 10pt; }
+  .firma-linea { border-top: 1px solid #111; margin-top: 50px; padding-top: 6px; }
+  .firma-rol { font-weight: bold; margin-top: 6px; }
+  @media print { .toolbar { display: none; } body { margin: 0; } }
+</style>
+</head>
+<body>
+<div class="toolbar"><button onclick="window.print()">🖨 Imprimir / Guardar como PDF</button></div>
+
+<h1>ACTA DE RECEPCIÓN DE DOCUMENTACIÓN Y LIBROS<br>CON RESERVA DE AUDITORÍA</h1>
+
+<p>En la Ciudad Autónoma de Buenos Aires, a los ${fechaEnPalabras(hoy)}, entre:</p>
+
+<p>Por una parte, el/la Sr./Sra. ${escapeHtml(c.saliente.nombre) || "[Nombre del Administrador Saliente]"}, DNI N.º ${escapeHtml(c.saliente.dni) || "[DNI]"}, Matrícula RPA N.º ${escapeHtml(c.saliente.matricula) || "[matrícula]"}, en su carácter de Administrador/a saliente del Consorcio de Propietarios de la calle ${escapeHtml(c.direccion) || "[dirección del edificio]"}, CUIT N.º ${escapeHtml(c.cuit) || "[CUIT]"}, en adelante denominado LA ADMINISTRACIÓN SALIENTE;</p>
+
+<p>Y por la otra parte, el/la Sr./Sra. ${escapeHtml(c.administrador.nombre) || "[Nombre del Administrador Entrante]"}, DNI N.º ${escapeHtml(c.administrador.dni) || "[DNI]"}, Matrícula RPA N.º ${escapeHtml(c.administrador.matriculaRPA) || "[matrícula]"}, en su carácter de Administrador/a entrante y representante legal del Consorcio de la referencia, en adelante denominado LA ADMINISTRACIÓN ENTRANTE;</p>
+
+<p>Se conviene en celebrar la presente ACTA DE RECEPCIÓN, la cual se sujetará a las siguientes cláusulas y condiciones:</p>
+
+<p><strong>PRIMERA: OBJETO.</strong> LA ADMINISTRACIÓN SALIENTE hace entrega en este acto a LA ADMINISTRACIÓN ENTRANTE de la documentación, libros obligatorios, antecedentes y elementos pertenecientes al Consorcio de Propietarios de la calle ${escapeHtml(c.direccion) || "[dirección del edificio]"}, conforme al siguiente detalle, relevado según el proceso de Auditoría Técnica de esta administración:</p>
+
+<h2>1. Libros obligatorios y documentación legal</h2>
+<ul>${itemsEntregaHtml(AUDITORIA_MODULOS.find((m) => m.id === "modulo3"), c)}</ul>
+
+<h2>2. Situación contable, fiscal, laboral y seguros</h2>
+<ul>${itemsEntregaHtml(AUDITORIA_MODULOS.find((m) => m.id === "modulo4"), c)}</ul>
+
+<h2>3. Relevamiento técnico y edilicio</h2>
+<ul>${itemsTecnicosHtml(c)}</ul>
+
+<h2>4. Datos bancarios informados</h2>
+<p>Cuenta bancaria oficial del consorcio: Banco ${escapeHtml(bancoPrincipal.nombre) || "[banco]"}, N.º de cuenta ${escapeHtml(bancoPrincipal.cuenta) || "[cuenta]"}, CBU ${escapeHtml(bancoPrincipal.cbu) || "[cbu]"}.</p>
+
+<p><strong>SEGUNDA: OBSERVACIONES Y DOCUMENTACIÓN PENDIENTE.</strong> Se deja constancia expresa de que al momento de la firma de la presente acta se registran las siguientes observaciones sobre lo detallado en el Punto Primero:</p>
+${observacionesActaHtml(c)}
+<p>LA ADMINISTRACIÓN SALIENTE se compromete a hacer entrega de los elementos faltantes o a subsanar las irregularidades señaladas dentro del plazo perentorio de SETENTA Y DOS (72) horas hábiles, bajo apercibimiento de lo dispuesto por la Ley N.º 941 del GCBA.</p>
+
+<p><strong>TERCERA: CLÁUSULA DE RESERVA DE AUDITORÍA.</strong> LA ADMINISTRACIÓN ENTRANTE recibe la documentación descrita en el Punto Primero BAJO ESTRICTA Y EXPRESA RESERVA DE AUDITORÍA E INVENTARIO DETALLADO. Se deja establecido que la recepción material de las carpetas, folios y libros:</p>
+<ol>
+<li>NO IMPLICA aprobación de la gestión de LA ADMINISTRACIÓN SALIENTE, ni conformidad con la exactitud de los saldos bancarios, números de caja, ni con la legitimidad de las erogaciones realizadas.</li>
+<li>NO CONSTITUYE la rendición de cuentas definitiva a la que se refieren los artículos 858 y 2067 inc. e) del Código Civil y Comercial de la Nación.</li>
+<li>NO IMPORTA RENUNCIA ALGUNA por parte del Consorcio de Propietarios ni de la nueva administración para exigir la entrega de documentación faltante, reclamar la restitución de sumas de dinero, iniciar denuncias ante el Registro Público de Administradores (RPA - Ley 941 CABA) o promover las acciones civiles y penales que pudieran corresponder por inconsistencias, deudas ocultas o irregularidades que se detecten tras el examen analítico de los antecedentes dentro del plazo de NOVENTA (90) días.</li>
+</ol>
+
+<p>En prueba de conformidad y previa lectura, se firman DOS (2) ejemplares de un mismo tenor y a un solo efecto, en la Ciudad Autónoma de Buenos Aires, a la fecha expresada al comienzo.</p>
+
+<div class="firmas">
+  <div class="firma-box">
+    <div class="firma-linea">………………………………………</div>
+    <div>${escapeHtml(c.saliente.nombre) || "(Nombre completo)"}</div>
+    <div>Mat. RPA N.º ${escapeHtml(c.saliente.matricula) || ""}</div>
+    <div>D.N.I. ${escapeHtml(c.saliente.dni) || ""}</div>
+    <div class="firma-rol">ADMINISTRADOR SALIENTE</div>
+  </div>
+  <div class="firma-box">
+    <div class="firma-linea">………………………………………</div>
+    <div>${escapeHtml(c.administrador.nombre) || "(Nombre completo)"}</div>
+    <div>Mat. RPA N.º ${escapeHtml(c.administrador.matriculaRPA) || ""}</div>
+    <div>D.N.I. ${escapeHtml(c.administrador.dni) || ""}</div>
+    <div class="firma-rol">ADMINISTRADOR ENTRANTE</div>
+  </div>
+</div>
+
+</body>
+</html>`;
+
+  const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const ventana = window.open(url, "_blank");
+  if (!ventana) {
+    toast("El navegador bloqueó la ventana. Permití ventanas emergentes para generar el acta.");
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -1010,6 +1273,7 @@ function renderPlantillaSeleccionada(c) {
     consorcioDireccion: c.direccion,
     consorcioCUIT: c.cuit,
     administradorNombre: c.administrador.nombre,
+    administradorDNI: c.administrador.dni,
     administradorCUIT: c.administrador.cuit,
     matriculaRPA: c.administrador.matriculaRPA,
     administradorDomicilio: c.administrador.domicilio,
@@ -1023,11 +1287,13 @@ function renderPlantillaSeleccionada(c) {
     fechaAsamblea: c.fechaAsamblea ? new Date(c.fechaAsamblea + "T00:00:00").toLocaleDateString("es-AR") : "[fecha de asamblea]",
     fechaHoy: fechaHoyStr(),
     salienteNombre: c.saliente.nombre,
+    salienteDNI: c.saliente.dni,
     salienteMatricula: c.saliente.matricula,
     salienteDomicilio: c.saliente.domicilio,
     salienteEmail: c.saliente.email,
     salienteTelefono: c.saliente.telefono,
-    horarioAtencion: c.horarioAtencion
+    horarioAtencion: c.horarioAtencion,
+    fechaTomaPosesion: c.fechaTomaPosesion ? new Date(c.fechaTomaPosesion + "T00:00:00").toLocaleDateString("es-AR") : "[fecha de toma de posesión]"
   };
 
   let texto = plantilla.cuerpo;

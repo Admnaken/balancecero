@@ -232,6 +232,10 @@ button { font-family: inherit; cursor: pointer; }
 .checklist-item.estado-ok { border-left-color: var(--color-ok); }
 .checklist-item.estado-con-observaciones { border-left-color: var(--color-accent-dark); }
 .checklist-item.estado-no-aplica { border-left-color: var(--color-border); opacity: 0.75; }
+.checklist-item.estado-entregado-conforme { border-left-color: var(--color-ok); }
+.checklist-item.estado-entregado-incompleto { border-left-color: var(--color-warn); }
+.checklist-item.estado-no-entregado { border-left-color: var(--color-danger); }
+.checklist-item.estado-irregular { border-left-color: var(--color-danger); border-left-style: dashed; }
 .badge-estado {
   margin-left: auto;
   font-size: 0.78rem;
@@ -346,6 +350,9 @@ label.check-line {
   padding: 12px 14px;
   font-size: 0.9rem;
 }
+.alert-box.warning { background: #fff2e0; border-color: var(--color-accent-dark); }
+.alert-box.danger { background: #fdecea; border-color: var(--color-danger); }
+.checkpoints-list { display: flex; flex-direction: column; gap: 10px; }
 
 .two-cols { columns: 2; column-gap: 24px; }
 .two-cols li { break-inside: avoid; }
